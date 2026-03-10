@@ -1,7 +1,7 @@
-/Users/aaron/Documents/Paragon/Return\ of\ the\ Pharaohs/Pharaohs-Puzzle-Code/08tomb/build/libraries/TeensyID/TeensyID.cpp.o: \
+/Users/aaron/Git\ Repos/Pharaohs/Puzzles/08tomb/build/libraries/TeensyID/TeensyID.cpp.o: \
  /Users/aaron/Documents/Arduino/libraries/TeensyID/TeensyID.cpp \
  /Users/aaron/Documents/Arduino/libraries/TeensyID/TeensyID.h \
- /Users/aaron/Documents/Paragon/Return\ of\ the\ Pharaohs/Pharaohs-Puzzle-Code/08tomb/build/pch/Arduino.h \
+ /Users/aaron/Git\ Repos/Pharaohs/Puzzles/08tomb/build/pch/Arduino.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WProgram.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/avr/pgmspace.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/avr/interrupt.h \

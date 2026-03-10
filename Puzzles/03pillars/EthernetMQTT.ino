@@ -1,8 +1,16 @@
 //Arduino Ethernet MQTT
 
-const IPAddress mqttServerIP(192, 168, 0, 200);
+const IPAddress mqttServerIP(192, 168, 20, 8);
 // Unique name of this device, used as client ID and Topic Name on MQTT
-const char* deviceID = "PillarFour";
+#if PILLAR == 1
+  const char* deviceID = "PillarOne";
+#elif PILLAR == 2
+  const char* deviceID = "PillarTwo";
+#elif PILLAR == 3
+  const char* deviceID = "PillarThree";
+#elif PILLAR == 4
+  const char* deviceID = "PillarFour";
+#endif
 
 // Global Variables 
 // Create an instance of the Ethernet client
@@ -36,26 +44,17 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
 
   // Act upon the message received
 
-  if(strcmp(msg, "solveOne") == 0) {
-    onSolveOne();
+  if(strcmp(msg, "state1") == 0) {
+    onState1();
   }
-  else if(strcmp(msg, "resetOne") == 0) {
-    onResetOne();
+  else if(strcmp(msg, "state2") == 0) {
+    onState2();
   }
-  else if(strcmp(msg, "overrideOne") == 0) {
-    onOverrideOne();
+  else if(strcmp(msg, "state3") == 0) {
+    onState3();
   }
-  else if(strcmp(msg, "solveTwo") == 0) {
-    onSolveTwo();
-  }
-  else if(strcmp(msg, "resetTwo") == 0) {
-    onResetTwo();
-  }
-  else if(strcmp(msg, "overrideTwo") == 0) {
-    onOverrideTwo();
-  }
-  else if(strcmp(msg, "startPillars") == 0) {
-    startPillars = true;
+  else if(strcmp(msg, "state4") == 0) {
+    onState4();
   }
 }
 
@@ -80,7 +79,7 @@ void ethernetSetup() {
 
 void mqttSetup() {
   // Define some settings for the MQTT client
-  MQTTclient.setServer(mqttServerIP, 1883);
+  MQTTclient.setServer(mqttServerIP, 33002);
   MQTTclient.setCallback(mqttCallback);
   
 }
@@ -101,12 +100,12 @@ void mqttLoop() {
       
       // Once connected, publish an announcement to the ToHost/#deviceID# topic
 
-      snprintf(topic, 32, "ToHost/PillarFour", deviceID);
+      snprintf(topic, 32, "ToHost/%s", deviceID);
       snprintf(msg, 64, "CONNECTED", deviceID);
       MQTTclient.publish(topic, msg);
       
       // Subscribe to topics meant for this device
-      snprintf(topic, 32, "ToDevice/PillarFour", deviceID);
+      snprintf(topic, 32, "ToDevice/%s", deviceID);
       
       MQTTclient.subscribe(topic);
       
@@ -131,6 +130,6 @@ void mqttLoop() {
 
 void publish(char* message){
 
-  snprintf(topic, 32, "ToHost/PillarFour", deviceID);
+  snprintf(topic, 32, "ToHost/%s", deviceID);
   MQTTclient.publish(topic, message);
 }

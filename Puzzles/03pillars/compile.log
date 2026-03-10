@@ -1,0 +1,8 @@
+/Users/aaron/Documents/Work/Pargon/Pharaohs/pillars/pillars.ino:28:10: fatal error: TeensyID.h: No such file or directory
+   28 | #include <TeensyID.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+[92mUsed platform[0m [92mVersion[0m [90mPath[0m
+[93mteensy:avr[0m    1.59.0  [90m/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0[0m
+Error during build: exit status 1

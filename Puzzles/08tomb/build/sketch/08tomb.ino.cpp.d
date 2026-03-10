@@ -1,9 +1,53 @@
-/Users/aaron/Documents/Paragon/Return\ of\ the\ Pharaohs/Pharaohs-Puzzle-Code/08tomb/build/sketch/08tomb.ino.cpp.o: \
- /Users/aaron/Documents/Paragon/Return\ of\ the\ Pharaohs/Pharaohs-Puzzle-Code/08tomb/build/sketch/08tomb.ino.cpp \
- /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/OctoWS2811/OctoWS2811.h \
- /Users/aaron/Documents/Paragon/Return\ of\ the\ Pharaohs/Pharaohs-Puzzle-Code/08tomb/build/pch/Arduino.h \
+/Users/aaron/Git\ Repos/Pharaohs/Puzzles/08tomb/build/sketch/08tomb.ino.cpp.o: \
+ /Users/aaron/Git\ Repos/Pharaohs/Puzzles/08tomb/build/sketch/08tomb.ino.cpp \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/FastLED.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/cpp_compat.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/FastLED.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/fastled_config.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/led_sysdefs.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms/arm/mxrt1062/led_sysdefs_arm_mxrt1062.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/avr/io.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/avr/../avr_emulation.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/avr/interrupt.h \
+ /Users/aaron/Git\ Repos/Pharaohs/Puzzles/08tomb/build/pch/Arduino.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/fastled_delay.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/bitswap.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/controller.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/pixeltypes.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/lib8tion.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/lib8tion/math8.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/lib8tion/scale8.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/lib8tion/scale8.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/lib8tion/random8.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/lib8tion/trig8.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/color.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/fastpin.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/fastspi_types.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/dmx.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms/arm/mxrt1062/fastled_arm_mxrt1062.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms/arm/mxrt1062/fastpin_arm_mxrt1062.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms/arm/mxrt1062/fastspi_arm_mxrt1062.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/SPI/SPI.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/DMAChannel.h \
- /Users/aaron/Documents/Arduino/libraries/ParagonMQTT/src/ParagonMQTT.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/EventResponder.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms/arm/mxrt1062/octows2811_controller.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms/arm/mxrt1062/../k20/ws2812serial_controller.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms/arm/mxrt1062/../k20/smartmatrix_t3.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms/arm/mxrt1062/clockless_arm_mxrt1062.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/platforms/arm/mxrt1062/block_clockless_arm_mxrt1062.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/fastled_progmem.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/avr/pgmspace.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/hsv2rgb.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/colorutils.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/pixelset.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/colorpalettes.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/noise.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/power_mgt.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/fastspi.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/fastspi_bitbang.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FastLED/src/chipsets.h \
+ /Users/aaron/Git\ Repos/Pharaohs/Libraries/ParagonMQTT/ParagonMQTT.h \
  /Users/aaron/Documents/Arduino/libraries/PubSubClient/src/PubSubClient.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/IPAddress.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Printable.h \

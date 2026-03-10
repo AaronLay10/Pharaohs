@@ -1,0 +1,7 @@
+#line 1 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/arduino.json"
+{
+  "sketch": "08tomb.ino",
+  "board": "teensy:avr:teensy41",
+  "port": "",
+  "output": "build"
+}

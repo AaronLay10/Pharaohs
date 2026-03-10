@@ -1,7 +1,7 @@
-/Users/aaron/Documents/Paragon/Return\ of\ the\ Pharaohs/Pharaohs-Puzzle-Code/08tomb/build/libraries/NativeEthernet/NativeEthernetUdp.cpp.o: \
+/Users/aaron/Git\ Repos/Pharaohs/Puzzles/08tomb/build/libraries/NativeEthernet/NativeEthernetUdp.cpp.o: \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeEthernetUdp.cpp \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeEthernet.h \
- /Users/aaron/Documents/Paragon/Return\ of\ the\ Pharaohs/Pharaohs-Puzzle-Code/08tomb/build/pch/Arduino.h \
+ /Users/aaron/Git\ Repos/Pharaohs/Puzzles/08tomb/build/pch/Arduino.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/fnet.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/fnet_config.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/fnet_user_config.h \

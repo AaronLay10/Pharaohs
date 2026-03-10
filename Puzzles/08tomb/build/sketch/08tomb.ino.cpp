@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#line 1 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/08tomb/08tomb.ino"
-#include <OctoWS2811.h>
+#line 1 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/08tomb.ino"
+#include <FastLED.h>
 #include <ParagonMQTT.h>
 
 // MQTT Configuration - Required by ParagonMQTT
@@ -25,23 +25,20 @@ const char *roomID = "Pharaohs";
 
 #define FRAMES_PER_SECOND 50
 
-// OctoWS2811 Setup
-const int numPins = 1;
-byte pinList[numPins] = {22};
-const int ledsPerStrip = 200;
-DMAMEM int displayMemory[ledsPerStrip * numPins * 3 / 4];
-int drawingMemory[ledsPerStrip * numPins * 3 / 4];
-
-const int config = WS2811_GRB | WS2811_800kHz;
-
-OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config, numPins, pinList);
+// FastLED Setup
+#define LED_PIN 22
+#define NUM_LEDS 200
+#define LED_TYPE WS2811
+#define COLOR_ORDER GRB
+CRGB leds[NUM_LEDS];
 
 int pos = 0;
 
 int state = 0;
 
 boolean solved = false;
-static const uint8_t sensor_pins[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+boolean raiseAnimationActive = false;
+static const uint8_t sensor_pins[] = {2, 3, 4, 5, 6, 7, 8, 9, 12, 11};  // Pin 10 has hardware conflicts - using pin 12 instead
 #define NUMBER_OF_SENSOR_PINS 10
 
 static uint32_t frame;
@@ -62,26 +59,25 @@ const struct
   rgb_t color;
 } wave_parameters[] =
     {
-        {80, 1, 0.1, 0.0f, {255, 100, 3}},
-        {140, 3, 0.1, 0.4f, {255, 0, 0}},
+        {200, 2, 0.08, 1.0f, {255, 0, 0}},  // Creepy red wave traveling slowly
 };
 #define NUMBER_OF_WAVES (sizeof(wave_parameters) / sizeof(wave_parameters[0]))
 
-#line 68 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/08tomb/08tomb.ino"
+#line 64 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/08tomb.ino"
 void setup();
-#line 106 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/08tomb/08tomb.ino"
+#line 104 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/08tomb.ino"
 void loop();
-#line 127 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/08tomb/08tomb.ino"
+#line 125 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/08tomb.ino"
 void onSolve();
-#line 133 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/08tomb/08tomb.ino"
+#line 131 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/08tomb.ino"
 void onReset();
-#line 140 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/08tomb/08tomb.ino"
+#line 139 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/08tomb.ino"
 void onOverride();
-#line 146 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/08tomb/08tomb.ino"
+#line 145 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/08tomb.ino"
 void motorMove(boolean solved);
-#line 219 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/08tomb/08tomb.ino"
+#line 221 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/08tomb.ino"
 void update_leds(boolean enabled, uint32_t frame);
-#line 68 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/08tomb/08tomb.ino"
+#line 64 "/Users/aaron/Git Repos/Pharaohs/Puzzles/08tomb/08tomb.ino"
 void setup()
 {
   uint8_t i;
@@ -91,8 +87,10 @@ void setup()
 
   Serial.begin(115200);
 
-  leds.begin();
-  leds.show();
+  FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.setBrightness(255);
+  FastLED.clear();
+  FastLED.show();
 
   pinMode(UPPER_RIGHT, INPUT_PULLDOWN);
   pinMode(LOWER_RIGHT, INPUT_PULLDOWN);
@@ -133,12 +131,12 @@ void loop()
   // Let ParagonMQTT handle timing and send data when appropriate
   sendDataMQTT();
 
-  update_leds(solved, frame);
   motorMove(solved);
+  update_leds(raiseAnimationActive, frame);
 
   frame++;
 
-  leds.show();
+  FastLED.show();
 }
 
 void onSolve()
@@ -150,6 +148,7 @@ void onSolve()
 void onReset()
 {
   solved = false;
+  raiseAnimationActive = false;
   Serial.println("Reset!!");
   publish("CONNECTED");
 }
@@ -201,6 +200,8 @@ void motorMove(boolean solved)
 
   if (solved)
   {
+    raiseAnimationActive = true;
+
     // When solved, move up until any upper sensor is triggered
     if (atTheTop)
     {
@@ -218,6 +219,7 @@ void motorMove(boolean solved)
   else
   {
     // When not solved, move down until any lower sensor is triggered
+    raiseAnimationActive = false;
     if (atTheBottom)
     {
       Serial.println("At the Bottom");
@@ -236,48 +238,130 @@ void motorMove(boolean solved)
 void update_leds(boolean enabled, uint32_t frame)
 {
   uint16_t i;
-  uint8_t j;
-  float amplitude;
-  float frequency;
-  double velocity;
-  float midpoint;
-  rgb_t color;
-  float brightness;
-  float r;
-  float g;
-  float b;
-  float x;
+  static float wispPosA = 0.0f;
+  static float wispPosB = (float)NUM_LEDS * 0.55f;
+  static float wispSpeedA = 0.028f;
+  static float wispSpeedB = -0.022f;
+  static float wispAmpA = 205.0f;
+  static float wispAmpB = 130.0f;
+  static uint32_t lastDriftFrame = 0;
+  uint16_t sideLen = NUM_LEDS / 4;
 
-  for (i = 0; i < ledsPerStrip; i++)
+  if (!enabled)
   {
-    r = 0;
-    g = 0;
-    b = 0;
-
-    for (j = 0; j < NUMBER_OF_WAVES; j++)
+    for (i = 0; i < NUM_LEDS; i++)
     {
-      amplitude = wave_parameters[j].amplitude;
-      frequency = wave_parameters[j].frequency;
-      color = wave_parameters[j].color;
-      velocity = wave_parameters[j].velocity;
-      midpoint = wave_parameters[j].midpoint;
-      x = 2.0f * PI / (float)(ledsPerStrip - 1) * (i * frequency + (float)(velocity * (double)frame));
-      x = fmod(x, 2.0f * PI);
-      brightness = amplitude / 2.0f * (midpoint + cosf(x));
-      brightness = max(0.0f, brightness);
+      leds[i] = CRGB::Black;
+    }
+    return;
+  }
 
-      if (enabled)
-      {
-        r += (float)color.r / 255.0f * brightness;
-        g += (float)color.g / 255.0f * brightness;
-        b += (float)color.b / 255.0f * brightness;
-      }
+  // Slowly mutate speed and strength so it feels haunted instead of repeating.
+  if ((frame - lastDriftFrame) > 140)
+  {
+    lastDriftFrame = frame;
+
+    if (random(100) < 22)
+    {
+      float s = ((float)random(1, 5)) / 100.0f;
+      wispSpeedA = (random(100) < 78) ? s : -s;
     }
 
-    color.r = (uint8_t)r;
-    color.g = (uint8_t)g;
-    color.b = (uint8_t)b;
+    if (random(100) < 22)
+    {
+      float s = ((float)random(1, 4)) / 100.0f;
+      wispSpeedB = (random(100) < 72) ? -s : s;
+    }
 
-    leds.setPixel(i, color.r, color.g, color.b);
+    wispAmpA = (float)random(170, 235);
+    wispAmpB = (float)random(100, 165);
+  }
+
+  for (i = 0; i < NUM_LEDS; i++)
+  {
+    const float darkRedFloor = 18.0f;
+    float red;
+    float dA;
+    float dB;
+    float glowA;
+    float glowB;
+    float sidePos;
+    float edgeBreath;
+    float voidField;
+    float cornerBias;
+    float nearestCorner;
+    float flicker;
+
+    dA = fabsf((float)i - wispPosA);
+    if (dA > ((float)NUM_LEDS * 0.5f))
+    {
+      dA = (float)NUM_LEDS - dA;
+    }
+
+    dB = fabsf((float)i - wispPosB);
+    if (dB > ((float)NUM_LEDS * 0.5f))
+    {
+      dB = (float)NUM_LEDS - dB;
+    }
+
+    glowA = wispAmpA / (1.0f + (0.022f * dA * dA));
+    glowB = wispAmpB / (1.0f + (0.030f * dB * dB));
+
+    sidePos = (float)(i % sideLen) / (float)sideLen;
+    edgeBreath = 5.0f + (6.0f * (0.5f + 0.5f * sinf((1.0f * PI * sidePos) - ((float)frame * 0.006f))));
+
+    // Pull slightly brighter at corners to make etched panel edges feel alive.
+    nearestCorner = (float)(i % sideLen);
+    if (nearestCorner > ((float)sideLen * 0.5f))
+    {
+      nearestCorner = (float)sideLen - nearestCorner;
+    }
+    cornerBias = 0.84f + (0.26f * (1.0f - (nearestCorner / ((float)sideLen * 0.5f))));
+
+    // Two opposing shadow fields create drifting black veins.
+    voidField = 0.34f + (0.66f * (0.5f + 0.5f * sinf(((float)i * 0.040f) - ((float)frame * 0.038f))));
+    voidField *= 0.42f + (0.58f * (0.5f + 0.5f * sinf(((float)i * 0.060f) + ((float)frame * 0.031f) + 1.7f)));
+
+    flicker = 0.88f + ((float)random(0, 16) / 100.0f);
+
+    // Rare hard black tear for sudden eerie pulses.
+    if (random(1000) < 6)
+    {
+      voidField *= 0.45f;
+    }
+
+    red = (edgeBreath + glowA + glowB) * cornerBias * voidField * flicker;
+    red = darkRedFloor + (red * 0.82f);
+
+    if (red > 255.0f)
+    {
+      red = 255.0f;
+    }
+    else if (red < 0.0f)
+    {
+      red = 0.0f;
+    }
+
+    leds[i] = CRGB((uint8_t)red, 0, 0);
+  }
+
+  wispPosA += wispSpeedA;
+  if (wispPosA >= (float)NUM_LEDS)
+  {
+    wispPosA -= (float)NUM_LEDS;
+  }
+  else if (wispPosA < 0.0f)
+  {
+    wispPosA += (float)NUM_LEDS;
+  }
+
+  wispPosB += wispSpeedB;
+  if (wispPosB >= (float)NUM_LEDS)
+  {
+    wispPosB -= (float)NUM_LEDS;
+  }
+  else if (wispPosB < 0.0f)
+  {
+    wispPosB += (float)NUM_LEDS;
   }
 }
