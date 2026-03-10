@@ -1,0 +1,19 @@
+#line 1 "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/ObeliskToth/.vscode/arduino.json"
+{
+  "port": "/dev/cu.Bluetooth-Incoming-Port",
+  "configuration": "usb=serial,speed=150,opt=o2std,keys=en-us",
+  "output": "build",
+  "board": "teensy:avr:teensy41",
+  "programmer": "",
+  "useProgrammer": false,
+  "optimize_for_debug": false,
+  "configurationRequired": true,
+  "monitorPortSettings": {
+    "port": "/dev/cu.Bluetooth-Incoming-Port",
+    "baudRate": 115200,
+    "lineEnding": "\r\n",
+    "dataBits": 8,
+    "parity": "none",
+    "stopBits": "one"
+  }
+}

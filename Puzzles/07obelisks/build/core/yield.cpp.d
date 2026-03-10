@@ -1,0 +1,4 @@
+/Users/aaron/Documents/Paragon/Return\ of\ the\ Pharaohs/Pharaohs-Puzzle-Code/07obelisks/build/core/yield.cpp.o: \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/yield.cpp \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/EventResponder.h \
+ /Users/aaron/Documents/Paragon/Return\ of\ the\ Pharaohs/Pharaohs-Puzzle-Code/07obelisks/build/pch/Arduino.h

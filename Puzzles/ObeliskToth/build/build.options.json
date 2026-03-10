@@ -1,0 +1,9 @@
+{
+  "additionalFiles": "../../..,../../..",
+  "compiler.optimization_flags": "",
+  "customBuildProperties": "build.warn_data_percentage=75",
+  "fqbn": "teensy:avr:teensy41:usb=serial,speed=150,opt=o2std,keys=en-us",
+  "hardwareFolders": "/Users/aaron/Library/Arduino15/packages",
+  "otherLibrariesFolders": "/Users/aaron/Documents/Arduino/libraries",
+  "sketchLocation": "/Users/aaron/Documents/Paragon/Return of the Pharaohs/Pharaohs-Puzzle-Code/ObeliskToth"
+}
