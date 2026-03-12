@@ -348,13 +348,13 @@ uint8_t qadd8(uint8_t i, uint8_t j);
 uint8_t qsub8(uint8_t i, uint8_t j);
 #line 886 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void loop();
-#line 1145 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1119 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState1();
-#line 1159 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1133 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState2();
-#line 1177 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1151 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState3();
-#line 1193 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1167 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState4();
 #line 292 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 const char *soundKeywordFromIndex(uint8_t index)
@@ -1104,36 +1104,10 @@ memset(ignite_sounds, 0, sizeof(ignite_sounds));
       for(int a = 0; a < LEDS_IN_BOWL; a++)
       {
       heat_val = (int)bowl_heat[a];
+      // calculate_heat_color handles pillar-specific coloring for PILLAR_STATE
+      // and returns standard fire colors for SOLVED_STATE
       color = calculate_heat_color(heat_val);
-      
-      // Apply pillar-specific coloring to bowl fire (same as PILLAR_STATE colors)
-      rgb_888_t bowl_rgb;
-      memcpy_P(&bowl_rgb, 
-               &color_temp_to_rgb[KELVIN_TO_IDX(min(max((int)heat_val, DISPLAY_MIN_COLOR_TEMP), DISPLAY_MAX_COLOR_TEMP))],
-               sizeof(bowl_rgb));
-      uint16_t bowl_brightness = color.r; // Use the brightness already calculated
-      bowl_rgb.r = ((uint32_t)bowl_rgb.r * (uint32_t)bowl_brightness) >> 16;
-      bowl_rgb.g = ((uint32_t)bowl_rgb.g * (uint32_t)bowl_brightness) >> 16;
-      bowl_rgb.b = ((uint32_t)bowl_rgb.b * (uint32_t)bowl_brightness) >> 16;
-      
-#if PILLAR == 1
-      color.r = bowl_rgb.r;
-      color.g = 0;
-      color.b = 0;
-#elif PILLAR == 2
-      color.r = bowl_rgb.b;
-      color.g = bowl_rgb.g;
-      color.b = bowl_rgb.r;
-#elif PILLAR == 3
-      color.r = bowl_rgb.g;
-      color.g = bowl_rgb.r;
-      color.b = bowl_rgb.b;
-#elif PILLAR == 4
-      color.r = bowl_rgb.r;
-      color.g = bowl_rgb.r;
-      color.b = bowl_rgb.b;
-#endif
-      
+
       setColor_bowl(a, color);
       }
   
