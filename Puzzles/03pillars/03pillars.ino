@@ -40,8 +40,8 @@ uint8_t mac[6];
 #include "rgb_888.h"
 
 // Literals
-// Set the pillar to program here (1, 2, 3, or 4)
-#define PILLAR                    4
+// Set the pillar t#define PILLAR                    4
+ne PILLAR                    4
 // Fire sim - 5.5" between sections, 35" from top section to bowl
 #define NUMBER_OF_HEAT_CELLS      160  // Scaled for 144 LEDs per side
 #define NUMBER_OF_BOWL_HEAT_CELLS 40

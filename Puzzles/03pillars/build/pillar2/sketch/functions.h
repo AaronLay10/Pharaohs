@@ -1,4 +1,4 @@
-#line 1 "/private/tmp/p2/03pillars/functions.h"
+#line 1 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/functions.h"
 typedef struct {
 	uint8_t r;
 	uint8_t g;

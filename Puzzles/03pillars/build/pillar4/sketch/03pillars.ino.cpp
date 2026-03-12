@@ -1,4 +1,4 @@
-#line 1 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 1 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 /******************************************************************************
  * PHARAOHS ESCAPE ROOM - EGYPTIAN PILLARS CONTROLLER
  * 
@@ -29,10 +29,7 @@
 
 #include <TeensyID.h>
 #include <Arduino.h>
-#include <NativeEthernet.h>
-#include <PubSubClient.h>
-
-uint8_t mac[6];
+#include <ParagonMQTT.h>
 
 #include <math.h>
 #include <OctoWS2811.h>
@@ -42,7 +39,19 @@ uint8_t mac[6];
 
 // Literals
 // Set the pillar to program here (1, 2, 3, or 4)
+#ifndef PILLAR
 #define PILLAR                    4
+#endif
+
+#if PILLAR == 1
+const char* deviceID = "PillarOne";
+#elif PILLAR == 2
+const char* deviceID = "PillarTwo";
+#elif PILLAR == 3
+const char* deviceID = "PillarThree";
+#elif PILLAR == 4
+const char* deviceID = "PillarFour";
+#endif
 // Fire sim - 5.5" between sections, 35" from top section to bowl
 #define NUMBER_OF_HEAT_CELLS      160  // Scaled for 144 LEDs per side
 #define NUMBER_OF_BOWL_HEAT_CELLS 40
@@ -83,10 +92,11 @@ uint8_t mac[6];
   const int ledsPerStrip = 72;  // Each physical strip has 72 LEDs
   #define LED_BOWL_PIN            12   // Bowl/Top of pillar LED strip
 #elif PILLAR == 3
-  #define NUM_STRIPS              8    // 2 strips per side × 4 sides
-  const int numPins = 8;
-  byte pinList[numPins] = {6,5,13,41,18,17,10,7}; // LED pins: A1,A2,B1,B2,C1,C2,D1,D2
+  #define NUM_STRIPS              9    // 2 strips per side × 4 sides + bowl
+  const int numPins = 9;
+  byte pinList[numPins] = {6,5,40,41,18,21,10,7,12}; // LED pins: A1,A2,B1,B2,C1,C2,D1,D2,Bowl
   const int ledsPerStrip = 72;  // Each physical strip has 72 LEDs
+  #define LED_BOWL_PIN            12   // Bowl/Top of pillar LED strip
 #elif PILLAR == 4
   #define NUM_STRIPS              9    // 2 strips per side × 4 sides + bowl
   const int numPins = 9;
@@ -152,7 +162,7 @@ uint16_t rand16seed;
   #define SENSOR_BB_PIN             16 // Side B, Bottom
   #define SENSOR_CT_PIN             19 // Side C, Top
   #define SENSOR_CM_PIN             20 // Side C, Middle
-  #define SENSOR_CB_PIN             21 // Side C, Bottom
+  #define SENSOR_CB_PIN             17 // Side C, Bottom
   #define SENSOR_DT_PIN             9  // Side D, Top
   #define SENSOR_DM_PIN             8  // Side D, Middle
   #define SENSOR_DB_PIN             11 // Side D, Bottom
@@ -174,6 +184,20 @@ uint16_t rand16seed;
 
 #define POWER_LED_PIN             13 // Onboard LED for debugging
 
+// Multiplex sync
+#define MUX_SYNC_PIN              1
+#define MUX_POWER_PIN             24
+#define MUX_ON_TIME_MS            250UL
+#define MUX_DEAD_TIME_MS          75UL    
+#define MUX_LOST_TIMEOUT_MS       2000UL
+#define MUX_SENSOR_SETTLE_MS      75UL
+
+#if PILLAR == 1 || PILLAR == 2
+  #define IS_MUX_LEADER           1
+#else
+  #define IS_MUX_LEADER           0
+#endif
+
 
 // These are the max values for each RGB channel, used for white balance
 #define MAX_RED                   255
@@ -192,10 +216,9 @@ uint16_t rand16seed;
 
 // Fire sim inputs
 #define INITIAL_HEAT              300
+#define STATE_CHANGE_LED_LOCKOUT_MS 2000UL
 
 // mqtt message variables
-#define MQTTDELAY 200
-long previousMillisMqtt = 0;
 boolean solveOne = false;
 boolean solveTwo = false;
 boolean overrideOne = false;
@@ -241,11 +264,8 @@ enum
   IGNITE_TOP_B_SOUND_INDEX,
   IGNITE_TOP_C_SOUND_INDEX,
   IGNITE_TOP_D_SOUND_INDEX,
-  IGNITE_BOWL_SOUND_INDEX,
-  IGNITE_ALL_SOUND_INDEX,
   NUMBER_OF_IGNITE_SOUNDS,
   BURNING_SOUND_INDEX = NUMBER_OF_IGNITE_SOUNDS,
-  EASTER_EGG_SOUND_INDEX,
   NUMBER_OF_SOUNDS,
 };
 
@@ -266,63 +286,75 @@ const char *sound_names[NUMBER_OF_SOUNDS] =
   "TOP     WAV",
   "TOP     WAV",
   "TOP     WAV",
-  "BOWL    WAV",
-  "LOUD    WAV",
   "BURNING WAV"};
 
-#line 272 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 290 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 const char * soundKeywordFromIndex(uint8_t index);
-#line 301 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 311 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void sendSoundKeyword(const char *keyword);
-#line 433 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 316 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void actionState1(const char *value);
+#line 322 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void actionState2(const char *value);
+#line 328 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void actionState3(const char *value);
+#line 334 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void actionState4(const char *value);
+#line 472 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void resetMultiplexClock();
+#line 478 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+boolean isMultiplexEnabledForState();
+#line 483 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+boolean computeLocalLeaderActive(uint32_t now);
+#line 489 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void updateMultiplexState(uint32_t now);
+#line 565 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float boxMuller(float u1, float u2);
-#line 439 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 571 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float randnorm(float mean, float stddev);
-#line 445 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 577 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float derivative1(float *vals, int n, int x);
-#line 456 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 588 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float derivative2(float *vals, int n, int x);
-#line 468 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 600 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float calc_heat_diffusion(float *heat, uint16_t n, float k, uint16_t x);
-#line 476 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 608 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float calc_velocity_temp_directional(float *heat, uint16_t n, float vx, uint16_t x);
-#line 484 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 616 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void setMuxBankPower(boolean on, uint32_t now);
+#line 626 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+boolean muxBankSettled(uint32_t now);
+#line 631 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void simulate_fire(float *heat, uint16_t number_of_heat_cells, float *burn, uint16_t *section_starts, uint16_t number_of_burns, fire_params_t params);
-#line 539 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 686 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setup();
-#line 586 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 746 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void updatePuzzleState(puzzleState_t *state, uint32_t current_millis);
-#line 608 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 768 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 rgb_t calculate_heat_color(float heat_val);
-#line 668 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 828 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setColor(int side, int ledIndex, rgb_t color);
-#line 681 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 841 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setColor_bowl(int ledIndex, rgb_t color);
-#line 687 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 847 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void blackoutAllLeds();
+#line 856 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void clearAllSensorsToInactive();
+#line 864 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 uint8_t qadd8(uint8_t i, uint8_t j);
-#line 694 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 871 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 uint8_t qsub8(uint8_t i, uint8_t j);
-#line 703 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 880 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void loop();
-#line 934 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 1113 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState1();
-#line 939 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 1127 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState2();
-#line 945 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 1145 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState3();
-#line 950 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 1161 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState4();
-#line 31 "/private/tmp/p4/03pillars/EthernetMQTT.ino"
-void mqttCallback(char* topic, byte* payload, unsigned int length);
-#line 61 "/private/tmp/p4/03pillars/EthernetMQTT.ino"
-void ethernetSetup();
-#line 80 "/private/tmp/p4/03pillars/EthernetMQTT.ino"
-void mqttSetup();
-#line 87 "/private/tmp/p4/03pillars/EthernetMQTT.ino"
-void mqttLoop();
-#line 131 "/private/tmp/p4/03pillars/EthernetMQTT.ino"
-void publish(char* message);
-#line 272 "/private/tmp/p4/03pillars/03pillars.ino"
+#line 290 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 const char *soundKeywordFromIndex(uint8_t index)
 {
   if(index <= IGNITE_BOTTOM_D_SOUND_INDEX)
@@ -337,14 +369,6 @@ const char *soundKeywordFromIndex(uint8_t index)
   {
     return "top";
   }
-  if(index == IGNITE_BOWL_SOUND_INDEX)
-  {
-    return "bowl";
-  }
-  if(index == IGNITE_ALL_SOUND_INDEX)
-  {
-    return "loud";
-  }
   if(index == BURNING_SOUND_INDEX)
   {
     return "burning";
@@ -357,6 +381,30 @@ void sendSoundKeyword(const char *keyword)
   Serial7.println(keyword);
 }
 
+void actionState1(const char *value)
+{
+  (void)value;
+  onState1();
+}
+
+void actionState2(const char *value)
+{
+  (void)value;
+  onState2();
+}
+
+void actionState3(const char *value)
+{
+  (void)value;
+  onState3();
+}
+
+void actionState4(const char *value)
+{
+  (void)value;
+  onState4();
+}
+
 // Pillars layout in room with sides shown:
 // _____________
 // |  3    4   |
@@ -366,7 +414,7 @@ void sendSoundKeyword(const char *keyword)
 // |               A    |
 // ---------------------
 //
-// Handprints (pillar-side-location): 1BB, 2BB, 3AT
+// Handprints (pillar-side-location): 1BB, 1DB, 2BB, 3AT
 // Pillar solutions (pillar-side-location): 
 //   Pillar 1: DT, CM, CT, BT
 //   Pillar 2: AT, AM, BM, CT
@@ -386,6 +434,7 @@ const struct
 {
   boolean handprint_solution;    
   boolean pillar_solution;
+  boolean multiplexed;
   uint8_t pin;
   uint16_t led_section_start;
   uint8_t ignite_sound_index;
@@ -394,80 +443,85 @@ const struct
 } sensor_info[] =
 {
   #if PILLAR == 1
-  { false, false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
-  { false, false, SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
+  { false, false, true,  SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
+  { false, false, true,  SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
+  { false, false, true,  SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
 
-  { false, true,  SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
-  { false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
-  { true,  false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
+  { false, true,  false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
+  { false, false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
+  { false,  false, false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
   
-  { false, true,  SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
-  { false, true,  SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+  { false, true,  false, SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
+  { false, true,  false, SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
+  { false, false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
 
-  { false, true,  SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
-  { false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
+  { false, true,  false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
+  { false, false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
+  { true,  false, false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
   #elif PILLAR == 2
-  { false, true,  SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
-  { false, true,  SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
+  { false, true,  false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
+  { false, true,  false, SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
+  { false, false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
 
-  { false, true,  SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
-  { false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
-  { true,  false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
+  { false, true,  false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
+  { false, false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
+  { true,  false, false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
   
-  { false, true,  SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
-  { false, false, SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+  { false, true,  true,  SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
+  { false, false, true,  SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
+  { false, false, true,  SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
 
-  { false, false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
-  { false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
+  { false, false, false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
+  { false, false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
+  { false, false, false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
   #elif PILLAR == 3
-  { true,  false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
-  { false, false, SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
+  { true,  false, true,  SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
+  { false, false, true,  SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
+  { false, false, true,  SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
 
-  { false, false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
-  { false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
-  { false, true,  SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
+  { false, false, false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
+  { false, false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
+  { false, true,  false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
   
-  { false, false, SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
-  { false, true,  SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+  { false, false, false, SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
+  { false, true,  false, SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
+  { false, false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
 
-  { false, true,  SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
-  { false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
-  { false, true,  SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
+  { false, true,  false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
+  { false, false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
+  { false, true,  false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
   #elif PILLAR == 4
-  { false, false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
-  { false, true,  SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
+  { false, false, false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
+  { false, true,  false, SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
+  { false, false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
 
-  { false, false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
-  { false, true,  SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
-  { false, true,  SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
+  { false, false, false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
+  { false, true,  false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
+  { false, true,  false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
   
-  { false, false, SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
-  { false, false, SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
-  { false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+  { false, false, true,  SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
+  { false, false, true,  SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
+  { false, false, true,  SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
 
-  { false, false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
-  { false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
-  { false, true,  SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
+  { false, false, false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
+  { false, false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
+  { false, true,  false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
   #endif
 };
 #define NUMBER_OF_SENSORS (sizeof(sensor_info) / sizeof(sensor_info[0]))
 
 // Globals
-char publishDetail[50] = {0};
 char soundCommand[32] = {0};  // Buffer for sound commands to Raspberry Pi
 
 extern const rgb_888_t color_temp_to_rgb[];
 
-
+static boolean mux_active = true;
+static boolean mux_using_wire = false;
+static boolean mux_power_on = false;
+static uint32_t mux_start_millis = 0;
+static uint32_t mux_last_edge_millis = 0;
+static uint32_t mux_power_changed_millis = 0;
+static uint8_t mux_last_sync_level = HIGH;
 
 static uint32_t last_sound_millis;
 
@@ -479,8 +533,100 @@ static float bowl_heat[NUMBER_OF_BOWL_HEAT_CELLS];
 static uint8_t glow[NUMBER_OF_SIDES][NUMBER_OF_PANELS];
 static puzzleState_t puzzle_state;
 static boolean last_ignite_sounds[NUMBER_OF_IGNITE_SOUNDS];
+static uint32_t last_state_change_millis = 0;
 
 // Functions
+
+void resetMultiplexClock()
+{
+  mux_start_millis = millis();
+  mux_last_edge_millis = mux_start_millis;
+}
+
+boolean isMultiplexEnabledForState()
+{
+  return (puzzle_state == HANDS_STATE || puzzle_state == PILLAR_STATE);
+}
+
+boolean computeLocalLeaderActive(uint32_t now)
+{
+  uint32_t phase = (now - mux_start_millis) % (2UL * MUX_ON_TIME_MS);
+  return (phase < (MUX_ON_TIME_MS - MUX_DEAD_TIME_MS));
+}
+
+void updateMultiplexState(uint32_t now)
+{
+  if(!isMultiplexEnabledForState())
+  {
+    // Power off bank and park sync pin when multiplexing is not active
+    if(mux_power_on)
+    {
+      mux_power_on = false;
+      digitalWrite(MUX_POWER_PIN, LOW);
+    }
+#if IS_MUX_LEADER
+    digitalWrite(MUX_SYNC_PIN, LOW);
+#endif
+    return;
+  }
+
+  boolean prev_active = mux_active;
+
+#if IS_MUX_LEADER
+  mux_active = computeLocalLeaderActive(now);
+  digitalWrite(MUX_SYNC_PIN, mux_active ? HIGH : LOW);
+#else
+  uint8_t sync_level = digitalRead(MUX_SYNC_PIN);
+
+  // Detect edge on sync line
+  if(sync_level != mux_last_sync_level)
+  {
+    mux_last_sync_level = sync_level;
+    mux_last_edge_millis = now;
+    mux_using_wire = true;
+  }
+
+  // If wire has gone quiet too long, fall back to local timer
+  if((now - mux_last_edge_millis) > MUX_LOST_TIMEOUT_MS)
+  {
+    mux_using_wire = false;
+  }
+
+  if(mux_using_wire)
+  {
+    // Leader HIGH means leader active, so follower must be inactive.
+    // After leader turns off (sync goes LOW), hold off for the dead-band
+    // before activating so both banks are never on at the same time.
+    if(sync_level == HIGH)
+    {
+      mux_active = false;
+    }
+    else
+    {
+      mux_active = ((now - mux_last_edge_millis) >= MUX_DEAD_TIME_MS);
+    }
+  }
+  else
+  {
+    // Follower local fallback: offset phase with dead-band on each transition
+    uint32_t phase = (now - mux_start_millis) % (2UL * MUX_ON_TIME_MS);
+    mux_active = (phase >= MUX_ON_TIME_MS && phase < (2UL * MUX_ON_TIME_MS - MUX_DEAD_TIME_MS));
+  }
+#endif
+
+  // Drive sensor bank power on transitions
+  if(mux_active && !mux_power_on)
+  {
+    mux_power_on = true;
+    mux_power_changed_millis = now;
+    digitalWrite(MUX_POWER_PIN, HIGH);
+  }
+  else if(!mux_active && mux_power_on)
+  {
+    mux_power_on = false;
+    digitalWrite(MUX_POWER_PIN, LOW);
+  }
+}
 
 // This generates a normal (Bell curve) distribution given two independent random
 // numbers in [0, 1]
@@ -533,6 +679,21 @@ float calc_velocity_temp_directional(float *heat, uint16_t n, float vx, uint16_t
     
   dx = derivative1(heat, n, x);
   return(vx * dx);
+}
+
+void setMuxBankPower(boolean on, uint32_t now)
+{
+  if(on != mux_power_on)
+  {
+    mux_power_on = on;
+    mux_power_changed_millis = now;
+    digitalWrite(MUX_POWER_PIN, on ? HIGH : LOW);
+  }
+}
+
+boolean muxBankSettled(uint32_t now)
+{
+  return ((now - mux_power_changed_millis) >= MUX_SENSOR_SETTLE_MS);
 }
 
 void simulate_fire(float *heat, 
@@ -599,12 +760,8 @@ uint16_t i;
 
 int state = 1;
 
-// Set up debug serial and Raspberry Pi serial
-Serial.begin(115200);
+// Set up Raspberry Pi serial
 Serial7.begin(115200);  // Serial7 (pins 28/29) for Raspberry Pi audio commands
-
-teensyMAC(mac);
-Serial.printf("String MAC Address: %s\n", teensyMAC());
 
 puzzle_state = WAITING_STATE;
 
@@ -613,7 +770,20 @@ leds.begin();
 leds.show();
 
 // Set up general I/O
+#if IS_MUX_LEADER
+  pinMode(MUX_SYNC_PIN, OUTPUT);
+  digitalWrite(MUX_SYNC_PIN, LOW);
+#else
+  pinMode(MUX_SYNC_PIN, INPUT_PULLUP);
+  mux_last_sync_level = digitalRead(MUX_SYNC_PIN);
+  mux_last_edge_millis = millis();
+  mux_using_wire = true;
+#endif
 
+pinMode(MUX_POWER_PIN, OUTPUT);
+digitalWrite(MUX_POWER_PIN, LOW);
+
+resetMultiplexClock();
 
 
 // Set up sensor inputs
@@ -632,8 +802,12 @@ for(side = 0; side < NUMBER_OF_SIDES; side++)
     }
   }
   
-  ethernetSetup();
+  networkSetup();
   mqttSetup();
+  registerAction("state1", actionState1);
+  registerAction("state2", actionState2);
+  registerAction("state3", actionState3);
+  registerAction("state4", actionState4);
 }
 
 // Updates the state of the puzzle as a function of input from sensors and other puzzles
@@ -738,6 +912,23 @@ void setColor_bowl(int ledIndex, rgb_t color) {
   leds.setPixel((8 * ledsPerStrip) + ledIndex, color.r, color.g, color.b);
 }
 
+void blackoutAllLeds()
+{
+  for(int pixel = 0; pixel < ledsPerStrip * numPins; pixel++)
+  {
+    leds.setPixel(pixel, 0, 0, 0);
+  }
+  leds.show();
+}
+
+void clearAllSensorsToInactive()
+{
+  for(uint16_t idx = 0; idx < NUMBER_OF_SENSORS; idx++)
+  {
+    sensors[idx] = IR_NOT_ACTIVATED;
+  }
+}
+
 uint8_t qadd8(uint8_t i, uint8_t j){
   int16_t x;
   x = (int16_t)i + (int16_t)j;
@@ -755,7 +946,17 @@ uint8_t qsub8(uint8_t i, uint8_t j){
 
 
 void loop() {
-if(startPillars && puzzle_state != WAITING_STATE){
+uint32_t current_millis = millis();
+
+if(startPillars){
+// Lock out LED display after state change to allow hardware stabilization
+if((current_millis - last_state_change_millis) < STATE_CHANGE_LED_LOCKOUT_MS)
+{
+  blackoutAllLeds();
+  sendDataMQTT();
+  return;
+}
+
 float burn[NUMBER_OF_PANELS];
 float bowl_burn;
 uint16_t bowl_burn_height = BOWL_HEIGHT;
@@ -773,26 +974,30 @@ rgb_t color;
 boolean is_something_burning;
 boolean is_sound_playing;
 boolean ignite_sounds[NUMBER_OF_IGNITE_SOUNDS];
-
-uint32_t current_millis = millis();
 puzzleState_t prev_puzzle_state;
 
+updateMultiplexState(current_millis);
+
 // Read the sensors
-for( i = 0; i < NUMBER_OF_SENSORS; i++ )
+for(i = 0; i < NUMBER_OF_SENSORS; i++)
+{
+  if(sensor_info[i].multiplexed)
   {
-  sensors[i] = digitalRead(sensor_info[i].pin);
+    // Only read when bank is powered and has had time to settle
+    if(mux_power_on && (current_millis - mux_power_changed_millis) >= MUX_SENSOR_SETTLE_MS)
+    {
+      sensors[i] = digitalRead(sensor_info[i].pin);
+    }
+    // else hold last known state to avoid visible flicker while multiplex bank is off
   }
+  else
+  {
+    sensors[i] = digitalRead(sensor_info[i].pin);
+  }
+}
 
 
-  unsigned long currentMillisMqtt = millis();
-  if(currentMillisMqtt - previousMillisMqtt > MQTTDELAY){
-    previousMillisMqtt = currentMillisMqtt;
   sprintf(publishDetail, "%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X",sensors[0],sensors[1],sensors[2],sensors[3],sensors[4],sensors[5],sensors[6],sensors[7],sensors[8],sensors[9],sensors[10],sensors[11]);
-  publish(publishDetail);
-  Serial.println(publishDetail);
-  Serial.println(puzzle_state);
-  mqttLoop();
-  }
   
 // Check if minimum time has elapsed since last sound started
 is_sound_playing = (last_sound_millis + MIN_SOUND_MILLIS > current_millis);
@@ -846,7 +1051,7 @@ memset(ignite_sounds, 0, sizeof(ignite_sounds));
               {
               burn[burn_index++] = randnorm(tall_fire.mean, tall_fire.stddev);
               }
-            ignite_sounds[IGNITE_ALL_SOUND_INDEX] = true;
+            ignite_sounds[IGNITE_BOTTOM_A_SOUND_INDEX] = true;
             break;
         } // end switch puzzle state
       } // end for each sensor
@@ -916,10 +1121,7 @@ if(puzzle_state == PILLAR_STATE)
         {
         sendSoundKeyword("stop");
         last_sound_millis = current_millis - MIN_SOUND_MILLIS;
-        Serial.println("Stop sound due to different burn position");
         }
-      Serial.print("Play ");
-      Serial.println((char *)sound_names[i]);
       sendSoundKeyword(soundKeywordFromIndex(i));
       last_sound_millis = current_millis;
       is_sound_playing = true;
@@ -944,10 +1146,7 @@ if(puzzle_state != PILLAR_STATE)
         {
         sendSoundKeyword("stop");
         last_sound_millis = current_millis - MIN_SOUND_MILLIS;
-        Serial.println("Stop sound due to different burn position");
         }
-      Serial.print("Play ");
-      Serial.println((char *)sound_names[i]);
       sendSoundKeyword(soundKeywordFromIndex(i));
       last_sound_millis = current_millis;
       is_sound_playing = true;
@@ -959,8 +1158,6 @@ if(puzzle_state != PILLAR_STATE)
   // but something is still burning.        
   if(is_something_burning && !is_sound_playing)
     {
-    Serial.print("Play ");
-    Serial.println((char *)sound_names[BURNING_SOUND_INDEX]);
     sendSoundKeyword("burning");
     last_sound_millis = current_millis;
     }
@@ -968,178 +1165,77 @@ if(puzzle_state != PILLAR_STATE)
     {
     sendSoundKeyword("stop");
     last_sound_millis = current_millis - MIN_SOUND_MILLIS;
-    Serial.println("Stop sound since nothing is burning");
     }
   }
 memcpy(last_ignite_sounds, ignite_sounds, sizeof(last_ignite_sounds));
 
 leds.show();
 } else {
-    unsigned long currentMillisMqtt = millis();
-  if(currentMillisMqtt - previousMillisMqtt > MQTTDELAY){
-    previousMillisMqtt = currentMillisMqtt;
-    publish("Waiting for Jackal and Ankh");
-    Serial.println("Waiting for Jackal and Ankh");
-  mqttLoop();
-  }
+  snprintf(publishDetail, sizeof(publishDetail), "Waiting for Jackal and Ankh");
 }
+
+// Always service MQTT regardless of state
+sendDataMQTT();
 }
 
 void onState1(){
+  last_state_change_millis = millis();
   startPillars = false;
   puzzle_state = WAITING_STATE;
+  clearAllSensorsToInactive();
+  blackoutAllLeds();
+  mux_power_on = false;
+  mux_active = false;
+  digitalWrite(MUX_POWER_PIN, LOW);
+#if IS_MUX_LEADER
+  digitalWrite(MUX_SYNC_PIN, LOW);
+#endif
 }
 
 void onState2(){
+  last_state_change_millis = millis();
   startPillars = true;
   puzzle_state = HANDS_STATE;
+  clearAllSensorsToInactive();
+  blackoutAllLeds();
+  mux_active = false;        // force clean power-on transition in first updateMultiplexState()
+  mux_power_on = false;
+  resetMultiplexClock();
+#if !IS_MUX_LEADER
+  mux_using_wire = true;
+  mux_last_sync_level = digitalRead(MUX_SYNC_PIN);
+  mux_last_edge_millis = millis();
+#endif
+  mqttBroker();
   publish("CONNECTED");
 }
 
 void onState3(){
+  last_state_change_millis = millis();
   startPillars = true;
   puzzle_state = PILLAR_STATE;
+  clearAllSensorsToInactive();
+  blackoutAllLeds();
+  mux_active = false;        // force clean power-on transition in first updateMultiplexState()
+  mux_power_on = false;
+  resetMultiplexClock();
+#if !IS_MUX_LEADER
+  mux_using_wire = true;
+  mux_last_sync_level = digitalRead(MUX_SYNC_PIN);
+  mux_last_edge_millis = millis();
+#endif
 }
 
 void onState4(){
+  last_state_change_millis = millis();
   startPillars = true;
   puzzle_state = SOLVED_STATE;
-}
-
-#line 1 "/private/tmp/p4/03pillars/EthernetMQTT.ino"
-//Arduino Ethernet MQTT
-
-const IPAddress mqttServerIP(192, 168, 20, 8);
-// Unique name of this device, used as client ID and Topic Name on MQTT
-#if PILLAR == 1
-  const char* deviceID = "PillarOne";
-#elif PILLAR == 2
-  const char* deviceID = "PillarTwo";
-#elif PILLAR == 3
-  const char* deviceID = "PillarThree";
-#elif PILLAR == 4
-  const char* deviceID = "PillarFour";
+  clearAllSensorsToInactive();
+  blackoutAllLeds();
+  mux_power_on = false;
+  mux_active = false;
+  digitalWrite(MUX_POWER_PIN, LOW);
+#if IS_MUX_LEADER
+  digitalWrite(MUX_SYNC_PIN, LOW);
 #endif
-
-// Global Variables 
-// Create an instance of the Ethernet client
-EthernetClient ethernetClient;
-// Create an instance of the MQTT client based on the ethernet client
-PubSubClient MQTTclient(ethernetClient);
-// The time (from millis()) at which last message was published
-long lastMsgTime = 0;
-// A buffer to hold messages to be sent/have been received
-char msg[64];
-// The topic in which to publish a message
-char topic[32];
-// Counter for number of heartbeat pulses sent
-int pulseCount = 0;
-
-// Callback function each time a message is published in any of
-// the topics to which this client is subscribed
-void mqttCallback(char* topic, byte* payload, unsigned int length) {
-
-  // The message "payload" passed to this function is a byte*
-  // Let's first copy its contents to the msg char[] array
-  memcpy(msg, payload, length);
-  // Add a NULL terminator to the message to make it a correct string
-  msg[length] = '\0';
-
-  // Debug
-  Serial.print("Message received in topic [");
-  Serial.print(topic);
-  Serial.print("] ");
-  Serial.println(msg);
-
-  // Act upon the message received
-
-  if(strcmp(msg, "state1") == 0) {
-    onState1();
-  }
-  else if(strcmp(msg, "state2") == 0) {
-    onState2();
-  }
-  else if(strcmp(msg, "state3") == 0) {
-    onState3();
-  }
-  else if(strcmp(msg, "state4") == 0) {
-    onState4();
-  }
 }
-
-void ethernetSetup() {
-
-  if(!Serial) {
-    // Start the serial connection
-    Serial.begin(9600);
-  }
-  
-  // start the Ethernet connection:
-
-  Serial.println("Initialize Ethernet:");
-
-  Ethernet.begin(mac);
- 
-  
-  // print your local IP address:
-  Serial.print("My IP address: ");
-  Serial.println(Ethernet.localIP());
-}
-
-void mqttSetup() {
-  // Define some settings for the MQTT client
-  MQTTclient.setServer(mqttServerIP, 33002);
-  MQTTclient.setCallback(mqttCallback);
-  
-}
-
-void mqttLoop() {
-  // Ensure there's a connection to the MQTT server
-  while (!MQTTclient.connected()) {
-
-    // Debug info
-    Serial.print("Attempting to connect to MQTT broker at ");
-    Serial.println(mqttServerIP);
-
-    // Attempt to connect
-    if (MQTTclient.connect(deviceID)) {
-    
-      // Debug info
-      Serial.println("Connected to MQTT broker");
-      
-      // Once connected, publish an announcement to the ToHost/#deviceID# topic
-
-      snprintf(topic, 32, "ToHost/%s", deviceID);
-      snprintf(msg, 64, "CONNECTED", deviceID);
-      MQTTclient.publish(topic, msg);
-      
-      // Subscribe to topics meant for this device
-      snprintf(topic, 32, "ToDevice/%s", deviceID);
-      
-      MQTTclient.subscribe(topic);
-      
-      // Subscribe to topics meant for all devices
-      MQTTclient.subscribe("ToDevice/All");
-    }
-    else {
-      // Debug info why connection could not be made
-      Serial.print("Connection to MQTT server failed, rc=");
-      Serial.print(MQTTclient.state());
-      Serial.println(" trying again in 5 seconds");
-      
-      // Wait 5 seconds before retrying
-      delay(5000);
-    }
-  }
-  
-  // Call the main loop to check for and publish messages
-  MQTTclient.loop();
-}
-
-
-void publish(char* message){
-
-  snprintf(topic, 32, "ToHost/%s", deviceID);
-  MQTTclient.publish(topic, message);
-}
-

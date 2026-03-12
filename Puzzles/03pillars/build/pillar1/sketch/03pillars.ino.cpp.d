@@ -40,6 +40,12 @@
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Printable.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WString.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/pins_arduino.h \
+ /Users/aaron/Git\ Repos/Pharaohs/Libraries/ParagonMQTT/ParagonMQTT.h \
+ /Users/aaron/Documents/Arduino/libraries/PubSubClient/src/PubSubClient.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/IPAddress.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Client.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/IPAddress.h \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Stream.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeEthernet.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/fnet.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/fnet_config.h \
@@ -120,13 +126,8 @@
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_srv.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_cln.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure.h \
- /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Client.h \
- /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/IPAddress.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Server.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Udp.h \
- /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Stream.h \
- /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/IPAddress.h \
- /Users/aaron/Documents/Arduino/libraries/PubSubClient/src/PubSubClient.h \
  /Users/aaron/Documents/Arduino/libraries/OctoWS2811/OctoWS2811.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/DMAChannel.h \
  /Users/aaron/Git\ Repos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/functions.h \

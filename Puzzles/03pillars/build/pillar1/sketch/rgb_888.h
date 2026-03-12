@@ -1,4 +1,4 @@
-#line 1 "/private/tmp/p1/03pillars/rgb_888.h"
+#line 1 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/rgb_888.h"
 #ifndef rgb_888_h
 #define rgb_888_h
 typedef struct

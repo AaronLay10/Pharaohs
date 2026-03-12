@@ -1,0 +1,2 @@
+/Users/aaron/Git\ Repos/Pharaohs/Puzzles/03pillars/build/current/core/serialEventUSB1.cpp.o: \
+ /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/serialEventUSB1.cpp

@@ -1,4 +1,4 @@
-#line 1 "/private/tmp/p4/03pillars/color_temp_lookup.c"
+#line 1 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/color_temp_lookup.c"
 #include <avr/pgmspace.h>
 #include "rgb_888.h"
 
