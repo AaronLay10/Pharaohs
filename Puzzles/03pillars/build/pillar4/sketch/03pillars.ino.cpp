@@ -264,6 +264,7 @@ enum
   IGNITE_TOP_B_SOUND_INDEX,
   IGNITE_TOP_C_SOUND_INDEX,
   IGNITE_TOP_D_SOUND_INDEX,
+  IGNITE_BOWL_SOUND_INDEX,
   NUMBER_OF_IGNITE_SOUNDS,
   BURNING_SOUND_INDEX = NUMBER_OF_IGNITE_SOUNDS,
   NUMBER_OF_SOUNDS,
@@ -286,75 +287,76 @@ const char *sound_names[NUMBER_OF_SOUNDS] =
   "TOP     WAV",
   "TOP     WAV",
   "TOP     WAV",
+  "BOWL    WAV",
   "BURNING WAV"};
 
-#line 290 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 292 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 const char * soundKeywordFromIndex(uint8_t index);
-#line 311 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 317 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void sendSoundKeyword(const char *keyword);
-#line 316 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-void actionState1(const char *value);
 #line 322 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-void actionState2(const char *value);
+void actionState1(const char *value);
 #line 328 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-void actionState3(const char *value);
+void actionState2(const char *value);
 #line 334 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void actionState3(const char *value);
+#line 340 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void actionState4(const char *value);
-#line 472 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-void resetMultiplexClock();
 #line 478 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void resetMultiplexClock();
+#line 484 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 boolean isMultiplexEnabledForState();
-#line 483 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-boolean computeLocalLeaderActive(uint32_t now);
 #line 489 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+boolean computeLocalLeaderActive(uint32_t now);
+#line 495 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void updateMultiplexState(uint32_t now);
-#line 565 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-float boxMuller(float u1, float u2);
 #line 571 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-float randnorm(float mean, float stddev);
+float boxMuller(float u1, float u2);
 #line 577 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+float randnorm(float mean, float stddev);
+#line 583 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float derivative1(float *vals, int n, int x);
-#line 588 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 594 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float derivative2(float *vals, int n, int x);
-#line 600 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 606 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float calc_heat_diffusion(float *heat, uint16_t n, float k, uint16_t x);
-#line 608 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 614 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float calc_velocity_temp_directional(float *heat, uint16_t n, float vx, uint16_t x);
-#line 616 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 622 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setMuxBankPower(boolean on, uint32_t now);
-#line 626 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 632 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 boolean muxBankSettled(uint32_t now);
-#line 631 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 637 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void simulate_fire(float *heat, uint16_t number_of_heat_cells, float *burn, uint16_t *section_starts, uint16_t number_of_burns, fire_params_t params);
-#line 686 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 692 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setup();
-#line 746 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 752 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void updatePuzzleState(puzzleState_t *state, uint32_t current_millis);
-#line 768 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 774 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 rgb_t calculate_heat_color(float heat_val);
-#line 828 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 834 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setColor(int side, int ledIndex, rgb_t color);
-#line 841 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-void setColor_bowl(int ledIndex, rgb_t color);
 #line 847 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void setColor_bowl(int ledIndex, rgb_t color);
+#line 853 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void blackoutAllLeds();
-#line 856 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 862 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void clearAllSensorsToInactive();
-#line 864 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 870 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 uint8_t qadd8(uint8_t i, uint8_t j);
-#line 871 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 877 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 uint8_t qsub8(uint8_t i, uint8_t j);
-#line 880 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 886 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void loop();
-#line 1113 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-void onState1();
-#line 1127 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
-void onState2();
 #line 1145 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void onState1();
+#line 1159 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+void onState2();
+#line 1177 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState3();
-#line 1161 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1193 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState4();
-#line 290 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 292 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 const char *soundKeywordFromIndex(uint8_t index)
 {
   if(index <= IGNITE_BOTTOM_D_SOUND_INDEX)
@@ -368,6 +370,10 @@ const char *soundKeywordFromIndex(uint8_t index)
   if(index <= IGNITE_TOP_D_SOUND_INDEX)
   {
     return "top";
+  }
+  if(index == IGNITE_BOWL_SOUND_INDEX)
+  {
+    return "bowl";
   }
   if(index == BURNING_SOUND_INDEX)
   {
@@ -1085,23 +1091,49 @@ memset(ignite_sounds, 0, sizeof(ignite_sounds));
         } // end for each sensor
       } // end for each side
 
-      // Trigger bowl lighting effects
-      if(puzzle_state == PILLAR_STATE 
-      || puzzle_state == SOLVED_STATE)
+      // Bowl always runs fire animation when puzzle is active
+      fire_params_t active_bowl_fire = (puzzle_state == SOLVED_STATE) ? tall_fire : bowl_fire;
+      bowl_burn = randnorm(active_bowl_fire.mean, active_bowl_fire.stddev);
+      if(puzzle_state == PILLAR_STATE || puzzle_state == SOLVED_STATE)
         {
-        bowl_burn = randnorm(bowl_fire.mean, bowl_fire.stddev);
-        }
-        else
-        {
-        bowl_burn = 0;
+        ignite_sounds[IGNITE_BOWL_SOUND_INDEX] = true;
         }
    
-        simulate_fire(bowl_heat, NUMBER_OF_BOWL_HEAT_CELLS, &bowl_burn, &bowl_burn_height, 1, bowl_fire);
+        simulate_fire(bowl_heat, NUMBER_OF_BOWL_HEAT_CELLS, &bowl_burn, &bowl_burn_height, 1, active_bowl_fire);
 
       for(int a = 0; a < LEDS_IN_BOWL; a++)
       {
       heat_val = (int)bowl_heat[a];
       color = calculate_heat_color(heat_val);
+      
+      // Apply pillar-specific coloring to bowl fire (same as PILLAR_STATE colors)
+      rgb_888_t bowl_rgb;
+      memcpy_P(&bowl_rgb, 
+               &color_temp_to_rgb[KELVIN_TO_IDX(min(max((int)heat_val, DISPLAY_MIN_COLOR_TEMP), DISPLAY_MAX_COLOR_TEMP))],
+               sizeof(bowl_rgb));
+      uint16_t bowl_brightness = color.r; // Use the brightness already calculated
+      bowl_rgb.r = ((uint32_t)bowl_rgb.r * (uint32_t)bowl_brightness) >> 16;
+      bowl_rgb.g = ((uint32_t)bowl_rgb.g * (uint32_t)bowl_brightness) >> 16;
+      bowl_rgb.b = ((uint32_t)bowl_rgb.b * (uint32_t)bowl_brightness) >> 16;
+      
+#if PILLAR == 1
+      color.r = bowl_rgb.r;
+      color.g = 0;
+      color.b = 0;
+#elif PILLAR == 2
+      color.r = bowl_rgb.b;
+      color.g = bowl_rgb.g;
+      color.b = bowl_rgb.r;
+#elif PILLAR == 3
+      color.r = bowl_rgb.g;
+      color.g = bowl_rgb.r;
+      color.b = bowl_rgb.b;
+#elif PILLAR == 4
+      color.r = bowl_rgb.r;
+      color.g = bowl_rgb.r;
+      color.b = bowl_rgb.b;
+#endif
+      
       setColor_bowl(a, color);
       }
   
