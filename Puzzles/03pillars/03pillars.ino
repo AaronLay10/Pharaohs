@@ -32,9 +32,10 @@
 
 #include <math.h>
 #include <OctoWS2811.h>
-#include "functions.h"
 #include "color_temp_lookup.h"
 #include "rgb_888.h"
+
+typedef rgb_888_t rgb_t;
 
 // Literals
 // Set the pillar to program here (1, 2, 3, or 4)
@@ -201,15 +202,6 @@ uint16_t rand16seed;
 // Fire sim inputs
 #define INITIAL_HEAT              300
 #define STATE_CHANGE_LED_LOCKOUT_MS 2000UL
-
-// mqtt message variables
-boolean solveOne = false;
-boolean solveTwo = false;
-boolean overrideOne = false;
-boolean overrideTwo = false;
-boolean resetOne = false;
-boolean resetTwo = false;
-boolean startPillars = false;
 
 typedef struct 
 {
@@ -739,7 +731,7 @@ uint8_t qsub8(uint8_t i, uint8_t j){
 void loop() {
 uint32_t current_millis = millis();
 
-if(startPillars){
+if(puzzle_state != WAITING_STATE){
 // Lock out LED display after state change to allow hardware stabilization
 if((current_millis - last_state_change_millis) < STATE_CHANGE_LED_LOCKOUT_MS)
 {
@@ -768,9 +760,17 @@ boolean ignite_sounds[NUMBER_OF_IGNITE_SOUNDS];
 puzzleState_t prev_puzzle_state;
 
 // Read the sensors
-for(i = 0; i < NUMBER_OF_SENSORS; i++)
+if(puzzle_state == SOLVED_STATE)
 {
-  sensors[i] = digitalRead(sensor_info[i].pin);
+  // State 4 ignores all sensor input and runs final animation continuously.
+  clearAllSensorsToInactive();
+}
+else
+{
+  for(i = 0; i < NUMBER_OF_SENSORS; i++)
+  {
+    sensors[i] = digitalRead(sensor_info[i].pin);
+  }
 }
 
 
@@ -862,24 +862,33 @@ memset(ignite_sounds, 0, sizeof(ignite_sounds));
         } // end for each sensor
       } // end for each side
 
-      // Bowl always runs fire animation when puzzle is active
-      fire_params_t active_bowl_fire = (puzzle_state == SOLVED_STATE) ? tall_fire : bowl_fire;
-      bowl_burn = randnorm(active_bowl_fire.mean, active_bowl_fire.stddev);
+      // Bowl animation starts in state3 and continues through state4.
       if(puzzle_state == PILLAR_STATE || puzzle_state == SOLVED_STATE)
-        {
+      {
+        fire_params_t active_bowl_fire = (puzzle_state == SOLVED_STATE) ? tall_fire : bowl_fire;
+        bowl_burn = randnorm(active_bowl_fire.mean, active_bowl_fire.stddev);
         ignite_sounds[IGNITE_BOWL_SOUND_INDEX] = true;
-        }
-   
+
         simulate_fire(bowl_heat, NUMBER_OF_BOWL_HEAT_CELLS, &bowl_burn, &bowl_burn_height, 1, active_bowl_fire);
 
-      for(int a = 0; a < LEDS_IN_BOWL; a++)
+        for(int a = 0; a < LEDS_IN_BOWL; a++)
+        {
+          heat_val = (int)bowl_heat[a];
+          // calculate_heat_color handles pillar-specific coloring for PILLAR_STATE
+          // and returns standard fire colors for SOLVED_STATE
+          color = calculate_heat_color(heat_val);
+          setColor_bowl(a, color);
+        }
+      }
+      else
       {
-      heat_val = (int)bowl_heat[a];
-      // calculate_heat_color handles pillar-specific coloring for PILLAR_STATE
-      // and returns standard fire colors for SOLVED_STATE
-      color = calculate_heat_color(heat_val);
-
-      setColor_bowl(a, color);
+        for(int a = 0; a < LEDS_IN_BOWL; a++)
+        {
+          color.r = 0;
+          color.g = 0;
+          color.b = 0;
+          setColor_bowl(a, color);
+        }
       }
   
 
@@ -957,7 +966,6 @@ sendDataMQTT();
 
 void onState1(){
   last_state_change_millis = millis();
-  startPillars = false;
   puzzle_state = WAITING_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
@@ -965,7 +973,6 @@ void onState1(){
 
 void onState2(){
   last_state_change_millis = millis();
-  startPillars = true;
   puzzle_state = HANDS_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
@@ -975,7 +982,6 @@ void onState2(){
 
 void onState3(){
   last_state_change_millis = millis();
-  startPillars = true;
   puzzle_state = PILLAR_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
@@ -983,7 +989,6 @@ void onState3(){
 
 void onState4(){
   last_state_change_millis = millis();
-  startPillars = true;
   puzzle_state = SOLVED_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
