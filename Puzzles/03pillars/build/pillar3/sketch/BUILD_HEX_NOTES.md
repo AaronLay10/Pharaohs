@@ -1,4 +1,4 @@
-#line 1 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/BUILD_HEX_NOTES.md"
+#line 1 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/BUILD_HEX_NOTES.md"
 # 03pillars Hex Build Notes
 
 Use this script to generate all four pillar hex files with identity verification:

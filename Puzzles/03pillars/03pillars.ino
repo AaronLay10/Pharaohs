@@ -183,21 +183,6 @@ uint16_t rand16seed;
 
 #define POWER_LED_PIN             13 // Onboard LED for debugging
 
-// Multiplex sync
-#define MUX_SYNC_PIN              1
-#define MUX_POWER_PIN             24
-#define MUX_ON_TIME_MS            250UL
-#define MUX_DEAD_TIME_MS          75UL    
-#define MUX_LOST_TIMEOUT_MS       2000UL
-#define MUX_SENSOR_SETTLE_MS      75UL
-
-#if PILLAR == 1 || PILLAR == 2
-  #define IS_MUX_LEADER           1
-#else
-  #define IS_MUX_LEADER           0
-#endif
-
-
 // These are the max values for each RGB channel, used for white balance
 #define MAX_RED                   255
 #define MAX_GREEN                 224
@@ -372,7 +357,6 @@ const struct
 {
   boolean handprint_solution;    
   boolean pillar_solution;
-  boolean multiplexed;
   uint8_t pin;
   uint16_t led_section_start;
   uint8_t ignite_sound_index;
@@ -381,69 +365,69 @@ const struct
 } sensor_info[] =
 {
   #if PILLAR == 1
-  { false, false, true,  SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
-  { false, false, true,  SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
-  { false, false, true,  SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
+  { false, false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },
+  { false, false, SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
 
-  { false, true,  false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
-  { false, false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
-  { false,  false, false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
-  
-  { false, true,  false, SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
-  { false, true,  false, SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
-  { false, false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+  { false, true,  SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
+  { false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
 
-  { false, true,  false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
-  { false, false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
-  { true,  false, false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
+  { false, true,  SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
+  { false, true,  SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+
+  { false, true,  SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
+  { false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },
+  { true,  false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
   #elif PILLAR == 2
-  { false, true,  false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
-  { false, true,  false, SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
-  { false, false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
+  { false, true,  SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },
+  { false, true,  SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
 
-  { false, true,  false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
-  { false, false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
-  { true,  false, false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
-  
-  { false, true,  true,  SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
-  { false, false, true,  SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
-  { false, false, true,  SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+  { false, true,  SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
+  { false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },
+  { true,  false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
 
-  { false, false, false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
-  { false, false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
-  { false, false, false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
+  { false, true,  SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
+  { false, false, SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+
+  { false, false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
+  { false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
   #elif PILLAR == 3
-  { true,  false, true,  SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
-  { false, false, true,  SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
-  { false, false, true,  SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
+  { true,  false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },
+  { false, false, SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
 
-  { false, false, false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
-  { false, false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
-  { false, true,  false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
-  
-  { false, false, false, SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
-  { false, true,  false, SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
-  { false, false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+  { false, false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
+  { false, false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },
+  { false, true,  SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
 
-  { false, true,  false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
-  { false, false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
-  { false, true,  false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
+  { false, false, SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
+  { false, true,  SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+
+  { false, true,  SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
+  { false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },
+  { false, true,  SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
   #elif PILLAR == 4
-  { false, false, false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },  
-  { false, true,  false, SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },  
-  { false, false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
+  { false, false, SENSOR_AT_PIN, TOP_SECTION_START,    IGNITE_TOP_A_SOUND_INDEX,    0, TOP_POSITION_INDEX },
+  { false, true,  SENSOR_AM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_A_SOUND_INDEX, 0, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_AB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_A_SOUND_INDEX, 0, BOTTOM_POSITION_INDEX },
 
-  { false, false, false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
-  { false, true,  false, SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },  
-  { false, true,  false, SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
-  
-  { false, false, true,  SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
-  { false, false, true,  SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },  
-  { false, false, true,  SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+  { false, false, SENSOR_BT_PIN, TOP_SECTION_START,    IGNITE_TOP_B_SOUND_INDEX,    1, TOP_POSITION_INDEX },
+  { false, true,  SENSOR_BM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_B_SOUND_INDEX, 1, MIDDLE_POSITION_INDEX },
+  { false, true,  SENSOR_BB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_B_SOUND_INDEX, 1, BOTTOM_POSITION_INDEX },
 
-  { false, false, false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
-  { false, false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },  
-  { false, true,  false, SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
+  { false, false, SENSOR_CT_PIN, TOP_SECTION_START,    IGNITE_TOP_C_SOUND_INDEX,    2, TOP_POSITION_INDEX },
+  { false, false, SENSOR_CM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_C_SOUND_INDEX, 2, MIDDLE_POSITION_INDEX },
+  { false, false, SENSOR_CB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_C_SOUND_INDEX, 2, BOTTOM_POSITION_INDEX },
+
+  { false, false, SENSOR_DT_PIN, TOP_SECTION_START,    IGNITE_TOP_D_SOUND_INDEX,    3, TOP_POSITION_INDEX },
+  { false, false, SENSOR_DM_PIN, MIDDLE_SECTION_START, IGNITE_MIDDLE_D_SOUND_INDEX, 3, MIDDLE_POSITION_INDEX },
+  { false, true,  SENSOR_DB_PIN, BOTTOM_SECTION_START, IGNITE_BOTTOM_D_SOUND_INDEX, 3, BOTTOM_POSITION_INDEX }
   #endif
 };
 #define NUMBER_OF_SENSORS (sizeof(sensor_info) / sizeof(sensor_info[0]))
@@ -452,14 +436,6 @@ const struct
 char soundCommand[32] = {0};  // Buffer for sound commands to Raspberry Pi
 
 extern const rgb_888_t color_temp_to_rgb[];
-
-static boolean mux_active = true;
-static boolean mux_using_wire = false;
-static boolean mux_power_on = false;
-static uint32_t mux_start_millis = 0;
-static uint32_t mux_last_edge_millis = 0;
-static uint32_t mux_power_changed_millis = 0;
-static uint8_t mux_last_sync_level = HIGH;
 
 static uint32_t last_sound_millis;
 
@@ -474,97 +450,6 @@ static boolean last_ignite_sounds[NUMBER_OF_IGNITE_SOUNDS];
 static uint32_t last_state_change_millis = 0;
 
 // Functions
-
-void resetMultiplexClock()
-{
-  mux_start_millis = millis();
-  mux_last_edge_millis = mux_start_millis;
-}
-
-boolean isMultiplexEnabledForState()
-{
-  return (puzzle_state == HANDS_STATE || puzzle_state == PILLAR_STATE);
-}
-
-boolean computeLocalLeaderActive(uint32_t now)
-{
-  uint32_t phase = (now - mux_start_millis) % (2UL * MUX_ON_TIME_MS);
-  return (phase < (MUX_ON_TIME_MS - MUX_DEAD_TIME_MS));
-}
-
-void updateMultiplexState(uint32_t now)
-{
-  if(!isMultiplexEnabledForState())
-  {
-    // Power off bank and park sync pin when multiplexing is not active
-    if(mux_power_on)
-    {
-      mux_power_on = false;
-      digitalWrite(MUX_POWER_PIN, LOW);
-    }
-#if IS_MUX_LEADER
-    digitalWrite(MUX_SYNC_PIN, LOW);
-#endif
-    return;
-  }
-
-  boolean prev_active = mux_active;
-
-#if IS_MUX_LEADER
-  mux_active = computeLocalLeaderActive(now);
-  digitalWrite(MUX_SYNC_PIN, mux_active ? HIGH : LOW);
-#else
-  uint8_t sync_level = digitalRead(MUX_SYNC_PIN);
-
-  // Detect edge on sync line
-  if(sync_level != mux_last_sync_level)
-  {
-    mux_last_sync_level = sync_level;
-    mux_last_edge_millis = now;
-    mux_using_wire = true;
-  }
-
-  // If wire has gone quiet too long, fall back to local timer
-  if((now - mux_last_edge_millis) > MUX_LOST_TIMEOUT_MS)
-  {
-    mux_using_wire = false;
-  }
-
-  if(mux_using_wire)
-  {
-    // Leader HIGH means leader active, so follower must be inactive.
-    // After leader turns off (sync goes LOW), hold off for the dead-band
-    // before activating so both banks are never on at the same time.
-    if(sync_level == HIGH)
-    {
-      mux_active = false;
-    }
-    else
-    {
-      mux_active = ((now - mux_last_edge_millis) >= MUX_DEAD_TIME_MS);
-    }
-  }
-  else
-  {
-    // Follower local fallback: offset phase with dead-band on each transition
-    uint32_t phase = (now - mux_start_millis) % (2UL * MUX_ON_TIME_MS);
-    mux_active = (phase >= MUX_ON_TIME_MS && phase < (2UL * MUX_ON_TIME_MS - MUX_DEAD_TIME_MS));
-  }
-#endif
-
-  // Drive sensor bank power on transitions
-  if(mux_active && !mux_power_on)
-  {
-    mux_power_on = true;
-    mux_power_changed_millis = now;
-    digitalWrite(MUX_POWER_PIN, HIGH);
-  }
-  else if(!mux_active && mux_power_on)
-  {
-    mux_power_on = false;
-    digitalWrite(MUX_POWER_PIN, LOW);
-  }
-}
 
 // This generates a normal (Bell curve) distribution given two independent random
 // numbers in [0, 1]
@@ -617,21 +502,6 @@ float calc_velocity_temp_directional(float *heat, uint16_t n, float vx, uint16_t
     
   dx = derivative1(heat, n, x);
   return(vx * dx);
-}
-
-void setMuxBankPower(boolean on, uint32_t now)
-{
-  if(on != mux_power_on)
-  {
-    mux_power_on = on;
-    mux_power_changed_millis = now;
-    digitalWrite(MUX_POWER_PIN, on ? HIGH : LOW);
-  }
-}
-
-boolean muxBankSettled(uint32_t now)
-{
-  return ((now - mux_power_changed_millis) >= MUX_SENSOR_SETTLE_MS);
 }
 
 void simulate_fire(float *heat, 
@@ -706,23 +576,6 @@ puzzle_state = WAITING_STATE;
 
 leds.begin();
 leds.show();
-
-// Set up general I/O
-#if IS_MUX_LEADER
-  pinMode(MUX_SYNC_PIN, OUTPUT);
-  digitalWrite(MUX_SYNC_PIN, LOW);
-#else
-  pinMode(MUX_SYNC_PIN, INPUT_PULLUP);
-  mux_last_sync_level = digitalRead(MUX_SYNC_PIN);
-  mux_last_edge_millis = millis();
-  mux_using_wire = true;
-#endif
-
-pinMode(MUX_POWER_PIN, OUTPUT);
-digitalWrite(MUX_POWER_PIN, LOW);
-
-resetMultiplexClock();
-
 
 // Set up sensor inputs
 for(i = 0; i < NUMBER_OF_SENSORS; i++)
@@ -914,24 +767,10 @@ boolean is_sound_playing;
 boolean ignite_sounds[NUMBER_OF_IGNITE_SOUNDS];
 puzzleState_t prev_puzzle_state;
 
-updateMultiplexState(current_millis);
-
 // Read the sensors
 for(i = 0; i < NUMBER_OF_SENSORS; i++)
 {
-  if(sensor_info[i].multiplexed)
-  {
-    // Only read when bank is powered and has had time to settle
-    if(mux_power_on && (current_millis - mux_power_changed_millis) >= MUX_SENSOR_SETTLE_MS)
-    {
-      sensors[i] = digitalRead(sensor_info[i].pin);
-    }
-    // else hold last known state to avoid visible flicker while multiplex bank is off
-  }
-  else
-  {
-    sensors[i] = digitalRead(sensor_info[i].pin);
-  }
+  sensors[i] = digitalRead(sensor_info[i].pin);
 }
 
 
@@ -1122,12 +961,6 @@ void onState1(){
   puzzle_state = WAITING_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
-  mux_power_on = false;
-  mux_active = false;
-  digitalWrite(MUX_POWER_PIN, LOW);
-#if IS_MUX_LEADER
-  digitalWrite(MUX_SYNC_PIN, LOW);
-#endif
 }
 
 void onState2(){
@@ -1136,14 +969,6 @@ void onState2(){
   puzzle_state = HANDS_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
-  mux_active = false;        // force clean power-on transition in first updateMultiplexState()
-  mux_power_on = false;
-  resetMultiplexClock();
-#if !IS_MUX_LEADER
-  mux_using_wire = true;
-  mux_last_sync_level = digitalRead(MUX_SYNC_PIN);
-  mux_last_edge_millis = millis();
-#endif
   mqttBroker();
   publish("CONNECTED");
 }
@@ -1154,14 +979,6 @@ void onState3(){
   puzzle_state = PILLAR_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
-  mux_active = false;        // force clean power-on transition in first updateMultiplexState()
-  mux_power_on = false;
-  resetMultiplexClock();
-#if !IS_MUX_LEADER
-  mux_using_wire = true;
-  mux_last_sync_level = digitalRead(MUX_SYNC_PIN);
-  mux_last_edge_millis = millis();
-#endif
 }
 
 void onState4(){
@@ -1170,10 +987,4 @@ void onState4(){
   puzzle_state = SOLVED_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
-  mux_power_on = false;
-  mux_active = false;
-  digitalWrite(MUX_POWER_PIN, LOW);
-#if IS_MUX_LEADER
-  digitalWrite(MUX_SYNC_PIN, LOW);
-#endif
 }

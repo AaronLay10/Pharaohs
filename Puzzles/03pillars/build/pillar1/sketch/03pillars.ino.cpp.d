@@ -1,7 +1,7 @@
-/Users/aaron/Git\ Repos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/03pillars.ino.cpp.o: \
- /Users/aaron/Git\ Repos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/03pillars.ino.cpp \
+/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/03pillars.ino.cpp.o: \
+ /Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/03pillars.ino.cpp \
  /Users/aaron/Documents/Arduino/libraries/TeensyID/TeensyID.h \
- /Users/aaron/Git\ Repos/Pharaohs/Puzzles/03pillars/build/pillar1/pch/Arduino.h \
+ /Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar1/pch/Arduino.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WProgram.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/avr/pgmspace.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/avr/interrupt.h \
@@ -40,7 +40,7 @@
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Printable.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WString.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/pins_arduino.h \
- /Users/aaron/Git\ Repos/Pharaohs/Libraries/ParagonMQTT/ParagonMQTT.h \
+ /Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT/ParagonMQTT.h \
  /Users/aaron/Documents/Arduino/libraries/PubSubClient/src/PubSubClient.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/IPAddress.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Client.h \
@@ -130,6 +130,6 @@
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Udp.h \
  /Users/aaron/Documents/Arduino/libraries/OctoWS2811/OctoWS2811.h \
  /Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/DMAChannel.h \
- /Users/aaron/Git\ Repos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/functions.h \
- /Users/aaron/Git\ Repos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/color_temp_lookup.h \
- /Users/aaron/Git\ Repos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/rgb_888.h
+ /Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/functions.h \
+ /Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/color_temp_lookup.h \
+ /Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar1/sketch/rgb_888.h

@@ -1,4 +1,4 @@
-#line 1 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/pillar_ir_multiplexing_plan.md"
+#line 1 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/pillar_ir_multiplexing_plan.md"
 # Pharaohs Escape Room — Pillar IR Multiplexing Plan
 
 ## Goal

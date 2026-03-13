@@ -4,6 +4,6 @@
   "customBuildProperties": "",
   "fqbn": "teensy:avr:teensy41",
   "hardwareFolders": "/Users/aaron/Library/Arduino15/packages",
-  "otherLibrariesFolders": "/Users/aaron/Documents/Arduino/libraries,/Users/aaron/Git Repos/Pharaohs/Libraries,/Users/aaron/Documents/Arduino/libraries",
-  "sketchLocation": "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars"
+  "otherLibrariesFolders": "/Users/aaron/Documents/Arduino/libraries,/Users/aaron/GitRepos/Pharaohs/Libraries,/Users/aaron/Documents/Arduino/libraries",
+  "sketchLocation": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars"
 }

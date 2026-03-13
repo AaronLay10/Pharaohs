@@ -1,4 +1,4 @@
-#line 1 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 /******************************************************************************
  * PHARAOHS ESCAPE ROOM - EGYPTIAN PILLARS CONTROLLER
  * 
@@ -290,73 +290,73 @@ const char *sound_names[NUMBER_OF_SOUNDS] =
   "BOWL    WAV",
   "BURNING WAV"};
 
-#line 292 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 292 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 const char * soundKeywordFromIndex(uint8_t index);
-#line 317 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 317 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void sendSoundKeyword(const char *keyword);
-#line 322 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 322 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void actionState1(const char *value);
-#line 328 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 328 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void actionState2(const char *value);
-#line 334 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 334 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void actionState3(const char *value);
-#line 340 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 340 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void actionState4(const char *value);
-#line 478 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 478 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void resetMultiplexClock();
-#line 484 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 484 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 boolean isMultiplexEnabledForState();
-#line 489 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 489 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 boolean computeLocalLeaderActive(uint32_t now);
-#line 495 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 495 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void updateMultiplexState(uint32_t now);
-#line 571 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 571 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float boxMuller(float u1, float u2);
-#line 577 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 577 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float randnorm(float mean, float stddev);
-#line 583 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 583 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float derivative1(float *vals, int n, int x);
-#line 594 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 594 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float derivative2(float *vals, int n, int x);
-#line 606 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 606 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float calc_heat_diffusion(float *heat, uint16_t n, float k, uint16_t x);
-#line 614 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 614 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 float calc_velocity_temp_directional(float *heat, uint16_t n, float vx, uint16_t x);
-#line 622 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 622 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setMuxBankPower(boolean on, uint32_t now);
-#line 632 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 632 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 boolean muxBankSettled(uint32_t now);
-#line 637 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 637 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void simulate_fire(float *heat, uint16_t number_of_heat_cells, float *burn, uint16_t *section_starts, uint16_t number_of_burns, fire_params_t params);
-#line 692 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 692 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setup();
-#line 752 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 752 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void updatePuzzleState(puzzleState_t *state, uint32_t current_millis);
-#line 774 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 774 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 rgb_t calculate_heat_color(float heat_val);
-#line 834 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 834 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setColor(int side, int ledIndex, rgb_t color);
-#line 847 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 847 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void setColor_bowl(int ledIndex, rgb_t color);
-#line 853 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 853 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void blackoutAllLeds();
-#line 862 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 862 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void clearAllSensorsToInactive();
-#line 870 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 870 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 uint8_t qadd8(uint8_t i, uint8_t j);
-#line 877 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 877 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 uint8_t qsub8(uint8_t i, uint8_t j);
-#line 886 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 886 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void loop();
-#line 1119 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1119 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState1();
-#line 1133 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1133 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState2();
-#line 1151 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1151 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState3();
-#line 1167 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 1167 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 void onState4();
-#line 292 "/Users/aaron/Git Repos/Pharaohs/Puzzles/03pillars/03pillars.ino"
+#line 292 "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/03pillars.ino"
 const char *soundKeywordFromIndex(uint8_t index)
 {
   if(index <= IGNITE_BOTTOM_D_SOUND_INDEX)
