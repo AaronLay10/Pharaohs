@@ -1,0 +1,6 @@
+{
+  "sketch": "new_pillars.ino",
+  "board": "teensy:avr:teensy41",
+  "port": "",
+  "output": "build"
+}

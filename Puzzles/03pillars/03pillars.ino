@@ -32,10 +32,8 @@
 
 #include <math.h>
 #include <OctoWS2811.h>
-#include "color_temp_lookup.h"
-#include "rgb_888.h"
 
-typedef rgb_888_t rgb_t;
+typedef struct { uint8_t r; uint8_t g; uint8_t b; } rgb_t;
 
 // Literals
 // Set the pillar to program here (1, 2, 3, or 4)
@@ -52,18 +50,20 @@ const char* deviceID = "PillarThree";
 #elif PILLAR == 4
 const char* deviceID = "PillarFour";
 #endif
-// Fire sim - 5.5" between sections, 35" from top section to bowl
-#define NUMBER_OF_HEAT_CELLS      160  // Scaled for 144 LEDs per side
-#define NUMBER_OF_BOWL_HEAT_CELLS 40
+// Fire sim
 #define NUMBER_OF_PANELS          3
-#define NUMBER_OF_BURNS           4
 
-#define LEDS_PER_PANEL            18   // 18 LEDs per section in 72-pixel mirrored strip space
-#define BOTTOM_SECTION_START      2    // Bottom section starts near strip base
-#define MIDDLE_SECTION_START      26   // Middle section starts above bottom
-#define TOP_SECTION_START         52   // Top section has the highest pixel indices
-#define BOWL_HEIGHT               2
-#define BURN_OFFSET               3    // Add this to make fire sim look better when burning at the bottom
+#define LEDS_PER_PANEL            18   // 18 LEDs per section
+#define BOTTOM_SECTION_START      2    // Bottom section: LEDs 2..19
+#define MIDDLE_SECTION_START      26   // Middle section: LEDs 26..43
+#define TOP_SECTION_START         52   // Top section: LEDs 52..69
+
+// State 3 section fire tuning
+#define SECTION_COOLING           2    // How fast a section cools (0=hottest, 9=coolest)
+#define SECTION_SPARKING          100  // Probability (0-255) of adding heat when sensor active
+// State 4 full-strip fire tuning
+#define SOLVED_COOLING            1    // Cooler = taller flames
+#define SOLVED_SPARKING           120  // Base sparking probability
 
 // Glow fade in/out
 #define GLOW_FADE_IN_RATE         2
@@ -184,38 +184,9 @@ uint16_t rand16seed;
 
 #define POWER_LED_PIN             13 // Onboard LED for debugging
 
-// These are the max values for each RGB channel, used for white balance
-#define MAX_RED                   255
-#define MAX_GREEN                 224
-#define MAX_BLUE                  140
-
-// LED color temperature
-#define BRIGHTNESS_SCALE          8000
-#define DISPLAY_BLACKOUT_TEMP     1100
-#define DISPLAY_MIN_COLOR_TEMP    1024
-#define DISPLAY_MAX_COLOR_TEMP    20000
-
 // Sensors
 #define IR_ACTIVATED              0
 #define IR_NOT_ACTIVATED          1
-
-// Fire sim inputs
-#define INITIAL_HEAT              300
-#define STATE_CHANGE_LED_LOCKOUT_MS 2000UL
-
-typedef struct 
-{
-  float diffusion;
-  float velocity;
-  float cooling;
-  float ambient;
-  float mean;
-  float stddev;
-} fire_params_t;
-
-const fire_params_t bowl_fire   = { 2.7e-4f, 0.2f, 40.0f,  300.0f, 1500.0f, 200.0f };
-const fire_params_t normal_fire = { 2.7e-4f, 0.2f, 400.0f, 300.0f, 1800.0f, 150.0f };
-const fire_params_t tall_fire   = { 1.7e-4f, 0.9f, 130.0f, 300.0f, 2500.0f, 220.0f };
 
 typedef uint8_t puzzleState_t;
 enum
@@ -427,19 +398,14 @@ const struct
 // Globals
 char soundCommand[32] = {0};  // Buffer for sound commands to Raspberry Pi
 
-extern const rgb_888_t color_temp_to_rgb[];
-
 static uint32_t last_sound_millis;
 
 static boolean sensors[NUMBER_OF_SENSORS];
-//static int leds[NUMBER_OF_SIDES][LEDS_PER_SIDE];
-//static int bowl_leds[LEDS_IN_BOWL];
-static float heat[NUMBER_OF_SIDES][NUMBER_OF_HEAT_CELLS];
-static float bowl_heat[NUMBER_OF_BOWL_HEAT_CELLS];
+static uint8_t heat[NUMBER_OF_SIDES][72];   // One heat cell per LED (0-255 scale)
+static uint8_t bowl_heat[LEDS_IN_BOWL];
 static uint8_t glow[NUMBER_OF_SIDES][NUMBER_OF_PANELS];
 static puzzleState_t puzzle_state;
 static boolean last_ignite_sounds[NUMBER_OF_IGNITE_SOUNDS];
-static uint32_t last_state_change_millis = 0;
 
 // Functions
 
@@ -447,108 +413,7 @@ static uint32_t last_state_change_millis = 0;
 // numbers in [0, 1]
 inline float boxMuller(float u1, float u2)
 {
-  return(sqrt(-2*log(u1))*cos(2*M_PI*u2));
-}
-
-// Generate a random variable with specified mean and standard deviation
-inline float randnorm(float mean, float stddev)
-{
-  return(mean + stddev * boxMuller(random(65535) / 65535.0, random(65535) / 65535.0));
-}
-
-// Calculate the 1st derivative at x
-inline float derivative1(float *vals, int n, int x)
-{
-  int i1;
-  int i3;
-  
-  i1 = max(min(x - 1, n - 1), 0);
-  i3 = max(min(x + 1, n - 1), 0);
-  return((vals[i3] - vals[i1]) / 2.0);
-}
-
-// Calculate the 2nd derivative at x
-inline float derivative2(float *vals, int n, int x)
-{
-  int i1;
-  int i2;
-  int i3;
-
-  i1 = max(min(x - 1, n - 1), 0);
-  i2 = x;
-  i3 = max(min(x + 1, n - 1), 0);
-  return((vals[i3] - vals[i2]) - (vals[i2] - vals[i1]));
-}
-
-float calc_heat_diffusion(float *heat, uint16_t n, float k, uint16_t x)
-{
-  float d2x;
-  
-  d2x = derivative2(heat, n, x);
-  return(k * d2x);
-}
-
-float calc_velocity_temp_directional(float *heat, uint16_t n, float vx, uint16_t x)
-{
-  float dx;
-    
-  dx = derivative1(heat, n, x);
-  return(vx * dx);
-}
-
-void simulate_fire(float *heat, 
-                   uint16_t number_of_heat_cells, 
-                   float *burn, 
-                   uint16_t *section_starts, 
-                   uint16_t number_of_burns,
-                   fire_params_t params)
-{ 
-float cooling[NUMBER_OF_HEAT_CELLS];
-float heat_directional[NUMBER_OF_HEAT_CELLS];
-float heat_diffusion[NUMBER_OF_HEAT_CELLS];
-uint16_t i;
-float max_heat;
-  
-// Fire simulation: model LED temperature and brightness
-// Based on http://graphics.berkeley.edu/papers/Feldman-ASP-2003-08/Feldman-ASP-2003-08.pdf
-// NOTE: Cell 0 is reserved as a boundary condition
-heat_directional[0] = 0;
-heat_diffusion[0] = 0;
-cooling[0] = 0;
-max_heat = 0;
-for(i = 1; i < number_of_heat_cells; i++)
-  {
-  heat_directional[i] = calc_velocity_temp_directional(heat, number_of_heat_cells, params.velocity, i); 
-  heat_diffusion[i] = calc_heat_diffusion(heat, number_of_heat_cells, params.diffusion, i); 
-  max_heat = max(heat[i], max_heat);
-  }
-
-for(i = 1; i < number_of_heat_cells; i++)
-  {
-  float cooling_ratio;
-  
-  if( max_heat != params.ambient )
-    {
-    cooling_ratio = (heat[i] - params.ambient) / (max_heat - params.ambient);
-    cooling[i] = params.cooling * cooling_ratio * cooling_ratio * cooling_ratio * cooling_ratio;
-    }
-  else
-    {
-    cooling[i] = 0;
-    }
-  }
-
-for(i = 0; i < number_of_heat_cells; i++)
-  {
-  heat[i] += -cooling[i] - heat_directional[i] + heat_diffusion[i] * heat[i];
-  heat[i] = max(heat[i], params.ambient);
-  heat[i] = min(heat[i], DISPLAY_MAX_COLOR_TEMP);
-  }
-
-for(i = 0; i < number_of_burns; i++)
-  {
-  heat[section_starts[i]] += burn[i];
-  }
+  // ---- replaced by step_fire() below ----
 }
 
 void setup() 
@@ -579,10 +444,7 @@ for(i = 0; i < NUMBER_OF_SENSORS; i++)
 // Initialize fire sim
 for(side = 0; side < NUMBER_OF_SIDES; side++)
   {
-  for(i = 0; i < NUMBER_OF_HEAT_CELLS; i++)
-    {
-    heat[side][i] = INITIAL_HEAT;
-    }
+  memset(heat[side], 0, sizeof(heat[side]));
   }
   
   networkSetup();
@@ -618,62 +480,65 @@ switch(*state)
 
 rgb_t calculate_heat_color(float heat_val)
 {
-uint16_t brightness;
-rgb_888_t rgb;
-rgb_t color;
+  // ---- replaced by heatColor() / applyPillarColor() below ----
+}
 
-memcpy_P(&rgb, 
-         &color_temp_to_rgb[KELVIN_TO_IDX(min(max((int)heat_val, DISPLAY_MIN_COLOR_TEMP), DISPLAY_MAX_COLOR_TEMP))],
-         sizeof(rgb));
-
-if(heat_val < DISPLAY_BLACKOUT_TEMP)
+// Classic cellular-automaton fire step over heat[start .. start+len-1].
+// inject_spark=true drives continuous fire from the base (used for State 4 and bowl).
+// In State 3 the caller injects sparks manually when a sensor trips.
+void step_fire(uint8_t *heat, int start, int len, bool inject_spark)
+{
+  // 1. Cool every cell a little
+  for(int i = start; i < start + len; i++)
   {
-  brightness = 0;
+    uint8_t cool = random(0, SECTION_COOLING + 2);
+    heat[i] = (heat[i] > cool) ? heat[i] - cool : 0;
   }
-else
+  // 2. Drift heat upward (higher index = physically higher on strip)
+  for(int k = start + len - 1; k >= start + 2; k--)
   {
-  // Use Stefan-Boltmann proportion for brightness as a function of temperature
-  brightness =
-    (uint16_t)min(heat_val * heat_val * heat_val * heat_val * 
-                  (float)BRIGHTNESS_SCALE / 
-                 ((float)DISPLAY_MIN_COLOR_TEMP * 
-                  (float)DISPLAY_MIN_COLOR_TEMP * 
-                  (float)DISPLAY_MIN_COLOR_TEMP * 
-                  (float)DISPLAY_MIN_COLOR_TEMP),
-                  65535);
-  }  
-
-rgb.r = ((uint32_t)rgb.r * (uint32_t)brightness) >> 16;
-rgb.g = ((uint32_t)rgb.g * (uint32_t)brightness) >> 16;
-rgb.b = ((uint32_t)rgb.b * (uint32_t)brightness) >> 16;
-
-if(PILLAR == 1 && puzzle_state == PILLAR_STATE){
-  color.r = rgb.r;
-  color.g = 0;
-  color.b = 0;
-}
-else if(PILLAR == 2 && puzzle_state == PILLAR_STATE){
-  color.r = rgb.b;
-  color.g = rgb.g;
-  color.b = rgb.r;
-}
-else if(PILLAR == 3 && puzzle_state == PILLAR_STATE){
-  color.r = rgb.g;
-  color.g = rgb.r;
-  color.b = rgb.b;
-}
-else if(PILLAR == 4 && puzzle_state == PILLAR_STATE){
-  color.r = rgb.r; //rgb.r
-  color.g = rgb.r; //rgb.r
-  color.b = rgb.b; //rgb.b
-}
-else {
-  color.r = rgb.r;
-  color.g = rgb.g;
-  color.b = rgb.b;
+    heat[k] = ((uint16_t)heat[k-1] + heat[k-2] + heat[k-2]) / 3;
+  }
+  // 3. Optionally auto-spark at the base
+  if(inject_spark && random(255) < SOLVED_SPARKING)
+  {
+    int y = start + random(min(5, len));
+    heat[y] = qadd8(heat[y], random(160, 255));
+  }
 }
 
-return(color);
+// Map a 0-255 heat value to an RGB colour (black -> red -> orange -> yellow -> white).
+// This is the classic FastLED-style trilinear fire palette.
+rgb_t heatColor(uint8_t temperature)
+{
+  rgb_t c;
+  uint8_t t192 = (uint32_t)temperature * 191 / 255;
+  uint8_t ramp = (t192 & 0x3F) << 2;   // 0-252 ramp within each third
+  if(t192 & 0x80)       { c.r = 255; c.g = 255; c.b = ramp; }  // hottest: yellow->white
+  else if(t192 & 0x40)  { c.r = 255; c.g = ramp; c.b = 0;   }  // middle:  orange->yellow
+  else                  { c.r = ramp; c.g = 0;   c.b = 0;   }  // coolest: black->red
+  return c;
+}
+
+// Apply the per-pillar colour tint in PILLAR_STATE (State 3).
+// In all other states natural fire colours are used unchanged.
+rgb_t applyPillarColor(rgb_t c)
+{
+  if(puzzle_state != PILLAR_STATE) return c;
+  rgb_t out;
+  // Use a single brightness scalar to force a strict pillar hue in State 3.
+  // This prevents hot pixels from drifting toward white.
+  uint8_t intensity = max(c.r, max(c.g, c.b));
+  #if PILLAR == 1   // Red
+    out.r = intensity; out.g = 0;         out.b = 0;
+  #elif PILLAR == 2 // Blue
+    out.r = 0;         out.g = 0;         out.b = intensity;
+  #elif PILLAR == 3 // Green
+    out.r = 0;         out.g = intensity; out.b = 0;
+  #elif PILLAR == 4 // Yellow
+    out.r = intensity; out.g = intensity; out.b = 0;
+  #endif
+  return out;
 }
 
 void setColor(int side, int ledIndex, rgb_t color){
@@ -732,22 +597,7 @@ void loop() {
 uint32_t current_millis = millis();
 
 if(puzzle_state != WAITING_STATE){
-// Lock out LED display after state change to allow hardware stabilization
-if((current_millis - last_state_change_millis) < STATE_CHANGE_LED_LOCKOUT_MS)
-{
-  blackoutAllLeds();
-  sendDataMQTT();
-  return;
-}
-
-float burn[NUMBER_OF_PANELS];
-float bowl_burn;
-uint16_t bowl_burn_height = BOWL_HEIGHT;
-uint16_t burn_heights[NUMBER_OF_PANELS];
-uint8_t burn_index;
-float heat_val;
-fire_params_t fire_params = normal_fire;
-uint16_t brightness;
+uint16_t brightness;  // used in HANDS_STATE glow rendering
 uint16_t i;
 uint16_t j;
 uint8_t side;
@@ -786,111 +636,96 @@ memset(ignite_sounds, 0, sizeof(ignite_sounds));
   // Trigger lighting and sound effects for each pillar side
   for(side = 0; side < NUMBER_OF_SIDES; side++)
     {
-    memset(burn, 0, sizeof(burn));
-    memset(burn_heights, 0, sizeof(burn_heights));
-    burn_index = 0;
-    for(i = 0; i < NUMBER_OF_SENSORS; i++)
+    if(puzzle_state == SOLVED_STATE)
       {
-      if(side != sensor_info[i].side_index)
+      // ---------------------------------------------------------------
+      // STATE 4: Full-strip fire across all 72 LEDs — no section logic.
+      // step_fire() auto-injects sparks at the base each frame.
+      // ---------------------------------------------------------------
+      step_fire(heat[side], 0, ledsPerStrip, true);
+      for(j = 0; j < ledsPerStrip; j++)
         {
-        continue;
+        color = heatColor(heat[side][j]);
+        setColor(side, j, color);
         }
-      burn_heights[burn_index] = sensor_info[i].led_section_start + BURN_OFFSET;
-      switch(puzzle_state)
-        {          
-          case HANDS_STATE:
-            if(sensor_info[i].handprint_solution)
-              {
-              if(sensors[i] == IR_ACTIVATED)
-                {
-                glow[side][sensor_info[i].position_index] = qadd8(glow[side][sensor_info[i].position_index], GLOW_FADE_IN_RATE);
-                      
-                }
-              else
-                {
-                glow[side][sensor_info[i].position_index] = qsub8(glow[side][sensor_info[i].position_index], GLOW_FADE_OUT_RATE);
-                               
-                }
-              }
-            break;       
-          
-          case PILLAR_STATE:
-            if(sensors[i] == IR_ACTIVATED)
-              {
-              burn[burn_index++] = randnorm(normal_fire.mean, normal_fire.stddev);
-              ignite_sounds[sensor_info[i].ignite_sound_index] = true;
-              }
-            break;
-  
-          case SOLVED_STATE:
-            fire_params = tall_fire;
-            if(sensor_info[i].led_section_start == BOTTOM_SECTION_START)
-              {
-              burn[burn_index++] = randnorm(tall_fire.mean, tall_fire.stddev);
-              }
-            ignite_sounds[IGNITE_BOTTOM_A_SOUND_INDEX] = true;
-            break;
-        } // end switch puzzle state
-      } // end for each sensor
-
-    // Run fire simulation
-    simulate_fire(heat[side], NUMBER_OF_HEAT_CELLS, burn, burn_heights, burn_index, fire_params);
-
-    // Convert values to RGBA and display on appropriate LEDs for each sensor
-    for(i = 0; i < NUMBER_OF_SENSORS; i++)
+      ignite_sounds[IGNITE_BOTTOM_A_SOUND_INDEX] = true;
+      }
+    else if(puzzle_state == PILLAR_STATE)
       {
-      if(side != sensor_info[i].side_index)
+      // ---------------------------------------------------------------
+      // STATE 3: Per-section fire. Each section (18 LEDs) is a separate
+      // flame driven by its sensor. Sections don't bleed into each other.
+      // ---------------------------------------------------------------
+      const uint16_t section_starts[NUMBER_OF_PANELS] = {
+        BOTTOM_SECTION_START, MIDDLE_SECTION_START, TOP_SECTION_START
+      };
+      for(uint8_t pos = 0; pos < NUMBER_OF_PANELS; pos++)
         {
-        continue;
-        }
-      for(j = sensor_info[i].led_section_start; j < sensor_info[i].led_section_start + LEDS_PER_PANEL; j++)
-        {
-        if(puzzle_state == HANDS_STATE){
-          brightness = (uint16_t)glow[side][sensor_info[i].position_index];
-          color.r = 0;
-          color.g = brightness;
-          color.b = 0;
-          }
-          else
+        uint16_t sec = section_starts[pos];
+        // Check every sensor on this side that belongs to this section
+        for(i = 0; i < NUMBER_OF_SENSORS; i++)
+          {
+          if(sensor_info[i].side_index != side) continue;
+          if(sensor_info[i].led_section_start != sec) continue;
+          if(sensors[i] == IR_ACTIVATED)
             {
-            heat_val = (int)heat[side][j + BURN_OFFSET];
-            color = calculate_heat_color(heat_val);
+            // Sensor is active — inject a burst of heat at the section base
+            heat[side][sec] = qadd8(heat[side][sec], random(130, 220));
+            ignite_sounds[sensor_info[i].ignite_sound_index] = true;
             }
-          
-          setColor(side,j, color);
-          }      
-        } // end for each sensor
-      } // end for each side
-
-      // Bowl animation starts in state3 and continues through state4.
-      if(puzzle_state == PILLAR_STATE || puzzle_state == SOLVED_STATE)
-      {
-        fire_params_t active_bowl_fire = (puzzle_state == SOLVED_STATE) ? tall_fire : bowl_fire;
-        bowl_burn = randnorm(active_bowl_fire.mean, active_bowl_fire.stddev);
-        ignite_sounds[IGNITE_BOWL_SOUND_INDEX] = true;
-
-        simulate_fire(bowl_heat, NUMBER_OF_BOWL_HEAT_CELLS, &bowl_burn, &bowl_burn_height, 1, active_bowl_fire);
-
-        for(int a = 0; a < LEDS_IN_BOWL; a++)
-        {
-          heat_val = (int)bowl_heat[a];
-          // calculate_heat_color handles pillar-specific coloring for PILLAR_STATE
-          // and returns standard fire colors for SOLVED_STATE
-          color = calculate_heat_color(heat_val);
-          setColor_bowl(a, color);
-        }
+          }
+        // Advance the fire simulation for this section only
+        step_fire(heat[side], sec, LEDS_PER_PANEL, false);
+        // Render section LEDs with pillar-tinted fire colour
+        for(j = sec; j < sec + LEDS_PER_PANEL; j++)
+          {
+          color = applyPillarColor(heatColor(heat[side][j]));
+          setColor(side, j, color);
+          }
+        } // end for each section
       }
-      else
+    else if(puzzle_state == HANDS_STATE)
       {
-        for(int a = 0; a < LEDS_IN_BOWL; a++)
+      // ---------------------------------------------------------------
+      // STATE 2: Green glow on handprint sensor positions only.
+      // ---------------------------------------------------------------
+      for(i = 0; i < NUMBER_OF_SENSORS; i++)
         {
+        if(sensor_info[i].side_index != side) continue;
+        if(sensor_info[i].handprint_solution)
+          {
+          if(sensors[i] == IR_ACTIVATED)
+            glow[side][sensor_info[i].position_index] = qadd8(glow[side][sensor_info[i].position_index], GLOW_FADE_IN_RATE);
+          else
+            glow[side][sensor_info[i].position_index] = qsub8(glow[side][sensor_info[i].position_index], GLOW_FADE_OUT_RATE);
+          }
+        for(j = sensor_info[i].led_section_start; j < sensor_info[i].led_section_start + LEDS_PER_PANEL; j++)
+          {
           color.r = 0;
-          color.g = 0;
+          color.g = (uint8_t)glow[side][sensor_info[i].position_index];
           color.b = 0;
-          setColor_bowl(a, color);
+          setColor(side, j, color);
+          }
         }
       }
+    } // end for each side
   
+  // Bowl: active in State 3 and State 4, black otherwise.
+  if(puzzle_state == PILLAR_STATE || puzzle_state == SOLVED_STATE)
+    {
+    step_fire(bowl_heat, 0, LEDS_IN_BOWL, true);
+    ignite_sounds[IGNITE_BOWL_SOUND_INDEX] = true;
+    for(int a = 0; a < LEDS_IN_BOWL; a++)
+      {
+      color = applyPillarColor(heatColor(bowl_heat[a]));
+      setColor_bowl(a, color);
+      }
+    }
+  else
+    {
+    color.r = 0; color.g = 0; color.b = 0;
+    for(int a = 0; a < LEDS_IN_BOWL; a++) setColor_bowl(a, color);
+    }
 
 // Process sound effects if in Pillar Enabled State
 if(puzzle_state == PILLAR_STATE)
@@ -965,14 +800,12 @@ sendDataMQTT();
 }
 
 void onState1(){
-  last_state_change_millis = millis();
   puzzle_state = WAITING_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
 }
 
 void onState2(){
-  last_state_change_millis = millis();
   puzzle_state = HANDS_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
@@ -981,14 +814,12 @@ void onState2(){
 }
 
 void onState3(){
-  last_state_change_millis = millis();
   puzzle_state = PILLAR_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
 }
 
 void onState4(){
-  last_state_change_millis = millis();
   puzzle_state = SOLVED_STATE;
   clearAllSensorsToInactive();
   blackoutAllLeds();
