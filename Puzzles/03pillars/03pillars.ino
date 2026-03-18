@@ -230,21 +230,21 @@ const struct
 } sensor_info[] =
 {
   #if PILLAR == 1
-  { false, true,  SENSOR_A1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_A_SOUND_INDEX, 0, 2 },  
-  { false, true,  SENSOR_A2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_A_SOUND_INDEX,  0, 1 },  
+  { false, false, SENSOR_A1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_A_SOUND_INDEX, 0, 2 },  
+  { false, false, SENSOR_A2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_A_SOUND_INDEX,  0, 1 },  
   { false, false, SENSOR_A3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_A_SOUND_INDEX,  0, 0 },
 
   { false, true,  SENSOR_B1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_B_SOUND_INDEX, 1, 2 },
   { false, false, SENSOR_B2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_B_SOUND_INDEX,  1, 1 },  
-  { false, false, SENSOR_B3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_B_SOUND_INDEX,  1, 0 },
+  { true,  false, SENSOR_B3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_B_SOUND_INDEX,  1, 0 },
   
-  { false, false, SENSOR_C1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_C_SOUND_INDEX, 2, 2 },
-  { false, false, SENSOR_C2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_C_SOUND_INDEX,  2, 1 },  
+  { false, true,  SENSOR_C1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_C_SOUND_INDEX, 2, 2 },
+  { false, true,  SENSOR_C2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_C_SOUND_INDEX,  2, 1 },  
   { false, false, SENSOR_C3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_C_SOUND_INDEX,  2, 0 },
 
   { false, true,  SENSOR_D1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_D_SOUND_INDEX, 3, 2 },
   { false, false, SENSOR_D2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_D_SOUND_INDEX,  3, 1 },  
-  { true,  false, SENSOR_D3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_D_SOUND_INDEX,  3, 0 }
+  { false, false, SENSOR_D3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_D_SOUND_INDEX,  3, 0 }
   #elif PILLAR == 2
   { false, true,  SENSOR_A1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_A_SOUND_INDEX, 0, 2 },  
   { false, true,  SENSOR_A2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_A_SOUND_INDEX,  0, 1 },  
@@ -279,19 +279,19 @@ const struct
   { false, true,  SENSOR_D3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_D_SOUND_INDEX,  3, 0 }
   #elif PILLAR == 4
   { false, false, SENSOR_A1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_A_SOUND_INDEX, 0, 2 },  
-  { false, false, SENSOR_A2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_A_SOUND_INDEX,  0, 1 },  
+  { false, true,  SENSOR_A2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_A_SOUND_INDEX,  0, 1 },  
   { false, false, SENSOR_A3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_A_SOUND_INDEX,  0, 0 },
 
   { false, false, SENSOR_B1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_B_SOUND_INDEX, 1, 2 },
-  { false, false, SENSOR_B2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_B_SOUND_INDEX,  1, 1 },  
+  { false, true,  SENSOR_B2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_B_SOUND_INDEX,  1, 1 },  
   { false, true,  SENSOR_B3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_B_SOUND_INDEX,  1, 0 },
   
   { false, false, SENSOR_C1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_C_SOUND_INDEX, 2, 2 },
-  { false, true,  SENSOR_C2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_C_SOUND_INDEX,  2, 1 },  
+  { false, false, SENSOR_C2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_C_SOUND_INDEX,  2, 1 },  
   { false, false, SENSOR_C3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_C_SOUND_INDEX,  2, 0 },
 
   { false, false, SENSOR_D1_PIN, HIGH_PANEL_HEIGHT, IGNITE_HIGH_D_SOUND_INDEX, 3, 2 },
-  { false, true,  SENSOR_D2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_D_SOUND_INDEX,  3, 1 },  
+  { false, false, SENSOR_D2_PIN, MID_PANEL_HEIGHT,  IGNITE_MID_D_SOUND_INDEX,  3, 1 },  
   { false, true,  SENSOR_D3_PIN, LOW_PANEL_HEIGHT,  IGNITE_LOW_D_SOUND_INDEX,  3, 0 }
   #endif
 };
@@ -455,7 +455,7 @@ inline const char* soundWordForIgniteIndex(uint8_t index)
       return "top";
 
     case IGNITE_BOWL_SOUND_INDEX:
-      return "bowl";
+      return "burning";
 
     case IGNITE_ALL_SOUND_INDEX:
       return "burning";
@@ -769,7 +769,6 @@ memset(ignite_sounds, 0, sizeof(ignite_sounds));
       if(puzzle_state == PILLARS_STATE 
       || puzzle_state == SOLVED_STATE)
         {
-        ignite_sounds[IGNITE_BOWL_SOUND_INDEX] = true;
         bowl_burn = randnorm(bowl_fire.mean, bowl_fire.stddev);
         }
         else

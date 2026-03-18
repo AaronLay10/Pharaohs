@@ -5,8 +5,10 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/pharaohs/03pillarsSoundFX
-ExecStart=/usr/bin/python3 /opt/pharaohs/03pillarsSoundFX/pillar_audio_serial.py --port /dev/ttyS0 --baud 115200
+WorkingDirectory=/home/pi
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=-/home/pi/pillar_audio.env
+ExecStart=/usr/bin/python3 /home/pi/pillar_audio_serial.py --port /dev/ttyS0 --baud 115200 --device plughw:CARD=Device,DEV=0
 Restart=always
 RestartSec=2
 User=pi

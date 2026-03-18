@@ -5,9 +5,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SERVICE_NAME="pillar-audio.service"
 SERVICE_PATH="/etc/systemd/system/${SERVICE_NAME}"
 
-echo "Installing dependencies (python3-serial, alsa-utils, ALSA equalizer plugin)..."
+echo "Installing dependencies (python3-serial, python3-paho-mqtt, alsa-utils, ALSA equalizer plugin)..."
 sudo apt-get update -y
-sudo apt-get install -y python3-serial alsa-utils
+sudo apt-get install -y python3-serial python3-paho-mqtt alsa-utils
 if ! sudo apt-get install -y alsa-equal; then
 	sudo apt-get install -y libasound2-plugin-equal
 fi
@@ -50,7 +50,9 @@ Wants=network-online.target
 [Service]
 Type=simple
 WorkingDirectory=${SCRIPT_DIR}
-ExecStart=/usr/bin/python3 ${SCRIPT_DIR}/pillar_audio_serial.py --port /dev/ttyS0 --baud 115200
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=-${SCRIPT_DIR}/pillar_audio.env
+ExecStart=/usr/bin/python3 ${SCRIPT_DIR}/pillar_audio_serial.py --port /dev/ttyS0 --baud 115200 --device plughw:CARD=Device,DEV=0
 Restart=always
 RestartSec=2
 User=pi

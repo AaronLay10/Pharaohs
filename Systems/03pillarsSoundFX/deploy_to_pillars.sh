@@ -17,15 +17,27 @@ HOSTS=(
   "192.168.3.216"
 )
 
-if [[ ! -f "${SCRIPT_DIR}/bowl.wav" && -f "${SCRIPT_DIR}/burning.wav" ]]; then
-  cp "${SCRIPT_DIR}/burning.wav" "${SCRIPT_DIR}/bowl.wav"
-fi
+DEVICE_IDS=(
+  "PillarOne"
+  "PillarTwo"
+  "PillarThree"
+  "PillarFour"
+)
 
-for host in "${HOSTS[@]}"; do
+for i in "${!HOSTS[@]}"; do
+  host="${HOSTS[$i]}"
+  device_id="${DEVICE_IDS[$i]}"
   echo "============================================================"
-  echo "Deploying to ${PI_USER}@${host}"
+  echo "Deploying to ${PI_USER}@${host} (${device_id})"
 
   ssh "${PI_USER}@${host}" "mkdir -p ${REMOTE_DIR}"
+  ssh "${PI_USER}@${host}" "rm -f ${REMOTE_DIR}/bowl.wav"
+
+  ssh "${PI_USER}@${host}" "cat > ${REMOTE_DIR}/pillar_audio.env <<'EOF'
+PILLAR_DEVICE_ID=${device_id}
+PILLAR_MQTT_HOST=192.168.20.8
+PILLAR_MQTT_PORT=33002
+EOF"
 
   scp \
     "${SCRIPT_DIR}/pillar_audio_serial.py" \
@@ -33,13 +45,12 @@ for host in "${HOSTS[@]}"; do
     "${SCRIPT_DIR}/top.wav" \
     "${SCRIPT_DIR}/middle.wav" \
     "${SCRIPT_DIR}/bottom.wav" \
-    "${SCRIPT_DIR}/bowl.wav" \
     "${SCRIPT_DIR}/burning.wav" \
     "${PI_USER}@${host}:${REMOTE_DIR}/"
 
   ssh "${PI_USER}@${host}" "chmod +x ${REMOTE_DIR}/install_service.sh && cd ${REMOTE_DIR} && ./install_service.sh"
 
-  echo "Done: ${host}"
+  echo "Done: ${host} (${device_id})"
   echo
  done
 
