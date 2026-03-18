@@ -2,42 +2,6 @@
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
   "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
-   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
-   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
-   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/sketch/color_temp_lookup.c",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/sketch/color_temp_lookup.c.o"
-  ],
-  "file": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/sketch/color_temp_lookup.c"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
    "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
    "-c",
    "-O2",
@@ -78,6 +42,42 @@
    "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/sketch/03pillars.ino.cpp.o"
   ],
   "file": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/sketch/03pillars.ino.cpp"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
+   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
+   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
+   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/sketch/color_temp_lookup.c",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/sketch/color_temp_lookup.c.o"
+  ],
+  "file": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/sketch/color_temp_lookup.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -293,99 +293,99 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/Nativesocket.cpp",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/NativeEthernet/Nativesocket.cpp.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/Nativesocket.cpp"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-std=gnu++17",
-   "-fno-exceptions",
-   "-fpermissive",
-   "-fno-rtti",
-   "-fno-threadsafe-statics",
-   "-felide-constructors",
-   "-Wno-error=narrowing",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
-   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
-   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
-   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeEthernetUdp.cpp",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/NativeEthernet/NativeEthernetUdp.cpp.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeEthernetUdp.cpp"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-std=gnu++17",
-   "-fno-exceptions",
-   "-fpermissive",
-   "-fno-rtti",
-   "-fno-threadsafe-statics",
-   "-felide-constructors",
-   "-Wno-error=narrowing",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
-   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
-   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
-   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
    "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeEthernetClient.cpp",
    "-o",
    "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/NativeEthernet/NativeEthernetClient.cpp.o"
   ],
   "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeEthernetClient.cpp"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-std=gnu++17",
+   "-fno-exceptions",
+   "-fpermissive",
+   "-fno-rtti",
+   "-fno-threadsafe-statics",
+   "-felide-constructors",
+   "-Wno-error=narrowing",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
+   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
+   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
+   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeDns.cpp",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/NativeEthernet/NativeDns.cpp.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeDns.cpp"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-std=gnu++17",
+   "-fno-exceptions",
+   "-fpermissive",
+   "-fno-rtti",
+   "-fno-threadsafe-statics",
+   "-felide-constructors",
+   "-Wno-error=narrowing",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
+   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
+   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
+   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/Nativesocket.cpp",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/NativeEthernet/Nativesocket.cpp.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/Nativesocket.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -469,11 +469,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeMdns.cpp",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeEthernetUdp.cpp",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/NativeEthernet/NativeMdns.cpp.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/NativeEthernet/NativeEthernetUdp.cpp.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeMdns.cpp"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeEthernetUdp.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -513,11 +513,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeDns.cpp",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeMdns.cpp",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/NativeEthernet/NativeDns.cpp.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/NativeEthernet/NativeMdns.cpp.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeDns.cpp"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src/NativeMdns.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -585,11 +585,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_lock.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/fnet_usb_config.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/azure/fnet_azure_lock.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/port/fnet_usb_config.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_lock.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/fnet_usb_config.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -621,11 +621,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_platform.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_socketio.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/azure/fnet_azure_platform.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/azure/fnet_azure_socketio.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_platform.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_socketio.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -693,119 +693,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_lock.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/port/cpu/mimxrt/fnet_mimxrt.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/azure/fnet_azure_lock.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt.c"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
-   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
-   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
-   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt_serial.c",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/port/cpu/mimxrt/fnet_mimxrt_serial.c.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt_serial.c"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
-   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
-   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
-   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/autoip/fnet_autoip.c",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/autoip/fnet_autoip.c.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/autoip/fnet_autoip.c"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
-   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
-   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
-   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt_eth.c",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/port/cpu/mimxrt/fnet_mimxrt_eth.c.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt_eth.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_lock.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -882,6 +774,42 @@
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
   "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
+   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
+   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
+   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_platform.c",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/azure/fnet_azure_platform.c.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_platform.c"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
    "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
    "-c",
    "-O2",
@@ -953,11 +881,83 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_socketio.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt_eth.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/azure/fnet_azure_socketio.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/port/cpu/mimxrt/fnet_mimxrt_eth.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/azure/fnet_azure_socketio.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt_eth.c"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
+   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
+   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
+   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt.c",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/port/cpu/mimxrt/fnet_mimxrt.c.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt.c"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
+   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
+   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
+   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/autoip/fnet_autoip.c",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/autoip/fnet_autoip.c.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/autoip/fnet_autoip.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -1025,11 +1025,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/fnet_usb_config.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt_serial.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/port/fnet_usb_config.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/port/cpu/mimxrt/fnet_mimxrt_serial.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/fnet_usb_config.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/port/cpu/mimxrt/fnet_mimxrt_serial.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -1205,11 +1205,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_srv.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_cln.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/bench/fnet_bench_srv.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/bench/fnet_bench_cln.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_srv.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_cln.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -1241,11 +1241,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_cln.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_srv.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/bench/fnet_bench_cln.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/bench/fnet_bench_srv.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_cln.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/bench/fnet_bench_srv.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -1745,11 +1745,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/http/fnet_http_srv_get.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/http/fnet_http_srv_post.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/http/fnet_http_srv_get.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/http/fnet_http_srv_post.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/http/fnet_http_srv_get.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/http/fnet_http_srv_post.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -1781,11 +1781,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/http/fnet_http_srv_post.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/http/fnet_http_srv_get.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/http/fnet_http_srv_post.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/service/http/fnet_http_srv_get.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/http/fnet_http_srv_post.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/service/http/fnet_http_srv_get.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -4301,11 +4301,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/hkdf.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/havege.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/hkdf.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/havege.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/hkdf.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/havege.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -4337,11 +4337,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/havege.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/hkdf.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/havege.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/hkdf.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/havege.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/hkdf.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -4697,11 +4697,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/padlock.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/oid.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/padlock.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/oid.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/padlock.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/oid.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -4733,11 +4733,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/oid.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/padlock.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/oid.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/padlock.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/oid.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/padlock.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -5345,42 +5345,6 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/ssl_cache.c",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/ssl_cache.c.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/ssl_cache.c"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
-   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
-   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
-   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
    "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/sha512.c",
    "-o",
    "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/sha512.c.o"
@@ -5417,11 +5381,11 @@
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
    "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/ssl_ciphersuites.c",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/ssl_cache.c",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/ssl_ciphersuites.c.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/ssl_cache.c.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/ssl_ciphersuites.c"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/ssl_cache.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -5458,6 +5422,42 @@
    "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/ssl_cli.c.o"
   ],
   "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/ssl_cli.c"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "-I/Users/aaron/Documents/Arduino/libraries/TeensyID",
+   "-I/Users/aaron/GitRepos/Pharaohs/Libraries/ParagonMQTT",
+   "-I/Users/aaron/Documents/Arduino/libraries/PubSubClient/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/NativeEthernet/src",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src",
+   "-I/Users/aaron/Documents/Arduino/libraries/OctoWS2811",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/ssl_ciphersuites.c",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/libraries/FNET/third_party/mbedtls-2.12.0/src/ssl_ciphersuites.c.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/libraries/FNET/src/third_party/mbedtls-2.12.0/src/ssl_ciphersuites.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -6193,82 +6193,6 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/AudioStream.cpp",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/AudioStream.cpp.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/AudioStream.cpp"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-std=gnu++17",
-   "-fno-exceptions",
-   "-fpermissive",
-   "-fno-rtti",
-   "-fno-threadsafe-statics",
-   "-felide-constructors",
-   "-Wno-error=narrowing",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/DMAChannel.cpp",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/DMAChannel.cpp.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/DMAChannel.cpp"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-std=gnu++17",
-   "-fno-exceptions",
-   "-fpermissive",
-   "-fno-rtti",
-   "-fno-threadsafe-statics",
-   "-felide-constructors",
-   "-Wno-error=narrowing",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
    "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Blink.cc",
    "-o",
    "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/Blink.cc.o"
@@ -6307,49 +6231,11 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial3.cpp",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/AudioStream.cpp",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial3.cpp.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/AudioStream.cpp.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial3.cpp"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-std=gnu++17",
-   "-fno-exceptions",
-   "-fpermissive",
-   "-fno-rtti",
-   "-fno-threadsafe-statics",
-   "-felide-constructors",
-   "-Wno-error=narrowing",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial.cpp",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial.cpp.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial.cpp"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/AudioStream.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -6459,6 +6345,44 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/EventResponder.cpp",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/EventResponder.cpp.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/EventResponder.cpp"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-std=gnu++17",
+   "-fno-exceptions",
+   "-fpermissive",
+   "-fno-rtti",
+   "-fno-threadsafe-statics",
+   "-felide-constructors",
+   "-Wno-error=narrowing",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
    "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial6.cpp",
    "-o",
    "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial6.cpp.o"
@@ -6497,49 +6421,11 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial1.cpp",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial3.cpp",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial1.cpp.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial3.cpp.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial1.cpp"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-std=gnu++17",
-   "-fno-exceptions",
-   "-fpermissive",
-   "-fno-rtti",
-   "-fno-threadsafe-statics",
-   "-felide-constructors",
-   "-Wno-error=narrowing",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial5.cpp",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial5.cpp.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial5.cpp"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial3.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -6611,6 +6497,44 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial1.cpp",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial1.cpp.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial1.cpp"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-std=gnu++17",
+   "-fno-exceptions",
+   "-fpermissive",
+   "-fno-rtti",
+   "-fno-threadsafe-statics",
+   "-felide-constructors",
+   "-Wno-error=narrowing",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
    "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial7.cpp",
    "-o",
    "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial7.cpp.o"
@@ -6649,11 +6573,87 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/EventResponder.cpp",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial.cpp",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/EventResponder.cpp.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial.cpp.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/EventResponder.cpp"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial.cpp"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-std=gnu++17",
+   "-fno-exceptions",
+   "-fpermissive",
+   "-fno-rtti",
+   "-fno-threadsafe-statics",
+   "-felide-constructors",
+   "-Wno-error=narrowing",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial5.cpp",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/HardwareSerial5.cpp.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/HardwareSerial5.cpp"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-std=gnu++17",
+   "-fno-exceptions",
+   "-fpermissive",
+   "-fno-rtti",
+   "-fno-threadsafe-statics",
+   "-felide-constructors",
+   "-Wno-error=narrowing",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/DMAChannel.cpp",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/DMAChannel.cpp.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/DMAChannel.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -6801,11 +6801,11 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Stream.cpp",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Time.cpp",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/Stream.cpp.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/Time.cpp.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Stream.cpp"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Time.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -6839,11 +6839,11 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Time.cpp",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Stream.cpp",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/Time.cpp.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/Stream.cpp.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Time.cpp"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/Stream.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -6915,11 +6915,11 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WString.cpp",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WMath.cpp",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/WString.cpp.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/WMath.cpp.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WString.cpp"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WMath.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -6953,11 +6953,11 @@
    "-DLAYOUT_US_ENGLISH",
    "-I/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/pch",
    "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WMath.cpp",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WString.cpp",
    "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/WMath.cpp.o"
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/WString.cpp.o"
   ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WMath.cpp"
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/WString.cpp"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
@@ -8420,36 +8420,6 @@
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
   "arguments": [
-   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
-   "-c",
-   "-O2",
-   "-g",
-   "-Wall",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-nostdlib",
-   "-MMD",
-   "-mthumb",
-   "-mcpu=cortex-m7",
-   "-mfloat-abi=hard",
-   "-mfpu=fpv5-d16",
-   "-D__IMXRT1062__",
-   "-DTEENSYDUINO=159",
-   "-DARDUINO=10607",
-   "-DARDUINO_TEENSY41",
-   "-DF_CPU=600000000",
-   "-DUSB_SERIAL",
-   "-DLAYOUT_US_ENGLISH",
-   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
-   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/usb.c",
-   "-o",
-   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/usb.c.o"
-  ],
-  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/usb.c"
- },
- {
-  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
-  "arguments": [
    "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-g++",
    "-c",
    "-O2",
@@ -8484,6 +8454,36 @@
    "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/usb_audio.cpp.o"
   ],
   "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/usb_audio.cpp"
+ },
+ {
+  "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",
+  "arguments": [
+   "/Users/aaron/Library/Arduino15/packages/teensy/tools/teensy-compile/11.3.1/arm/bin/arm-none-eabi-gcc",
+   "-c",
+   "-O2",
+   "-g",
+   "-Wall",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-nostdlib",
+   "-MMD",
+   "-mthumb",
+   "-mcpu=cortex-m7",
+   "-mfloat-abi=hard",
+   "-mfpu=fpv5-d16",
+   "-D__IMXRT1062__",
+   "-DTEENSYDUINO=159",
+   "-DARDUINO=10607",
+   "-DARDUINO_TEENSY41",
+   "-DF_CPU=600000000",
+   "-DUSB_SERIAL",
+   "-DLAYOUT_US_ENGLISH",
+   "-I/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4",
+   "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/usb.c",
+   "-o",
+   "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars/build/pillar4/core/usb.c.o"
+  ],
+  "file": "/Users/aaron/Library/Arduino15/packages/teensy/hardware/avr/1.59.0/cores/teensy4/usb.c"
  },
  {
   "directory": "/Users/aaron/GitRepos/Pharaohs/Puzzles/03pillars",

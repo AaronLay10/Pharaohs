@@ -1,0 +1,24 @@
+---
+description: Pharaohs project rules
+alwaysApply: false
+---
+
+# Pharaohs Rules
+
+## Mission
+Pharaohs is hardware-adjacent and puzzle/escape-room oriented. Preserve real-world reliability and timing behavior.
+
+## Hardware safety
+- Treat pin assignments, timing values, sensor logic, relay logic, power control, and communication behavior as sensitive.
+- Do not change hardware mappings or electrical assumptions silently.
+- If modifying sensor, emitter, transistor, LED, or controller behavior, explain the exact impact.
+
+## Coding guidance
+- Prefer conservative edits.
+- Preserve existing comments that describe wiring, side mappings, pillar mappings, and deployment instructions.
+- Avoid broad refactors in controller code unless explicitly requested.
+
+## Verification
+- Suggest hardware-safe validation steps.
+- If a change could alter timing or physical behavior, call that out before claiming safety.
+- Separate compile success from real-world hardware validation.

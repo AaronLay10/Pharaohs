@@ -1,0 +1,16 @@
+[Unit]
+Description=Pharaohs Pillar Serial Audio Service
+After=network-online.target sound.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/pharaohs/03pillarsSoundFX
+ExecStart=/usr/bin/python3 /opt/pharaohs/03pillarsSoundFX/pillar_audio_serial.py --port /dev/ttyS0 --baud 115200
+Restart=always
+RestartSec=2
+User=pi
+Group=audio
+
+[Install]
+WantedBy=multi-user.target

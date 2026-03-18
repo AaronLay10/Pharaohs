@@ -1,0 +1,33 @@
+---
+description: Shared engineering rules for all Aaron projects
+alwaysApply: true
+---
+
+# Shared Engineering Rules
+
+## Working style
+- Start with a short plan before multi-file changes.
+- Prefer minimal, reversible diffs.
+- Preserve existing architecture unless there is a clear reason to change it.
+- Ask for clarification only when a wrong assumption would create real damage.
+
+## Verification
+- After changes, run the smallest relevant verification step available.
+- Prefer repo scripts in `scripts/` over ad hoc commands.
+- If verification cannot be run, state that clearly and explain why.
+
+## Safety
+- Never expose secrets, tokens, API keys, private certificates, or `.env` contents.
+- Do not modify deployment credentials, signing settings, or infrastructure access without explicit instruction.
+- Avoid editing generated files unless the task specifically requires it.
+
+## Code quality
+- Keep names descriptive.
+- Add comments only where they reduce ambiguity.
+- Do not add new dependencies without explaining why.
+- Preserve formatting and style conventions already present in the repo.
+
+## Git hygiene
+- Do not rewrite unrelated files.
+- Keep commits and diffs scoped to the requested task.
+- Flag risky changes before making them.
